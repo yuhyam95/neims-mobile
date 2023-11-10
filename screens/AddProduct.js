@@ -3,17 +3,19 @@
 import React, { useState } from 'react';
 import { Button, SafeAreaView, TextInput, View, StyleSheet, Text } from 'react-native';
 import { Formik } from 'formik';
+import { Picker, PickerIOS } from '@react-native-picker/picker';
+import AppButton from '../components/AppButton';
 
 export const AddProduct = props => (
 
   <SafeAreaView>
-    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 10}}>
-      <Text style={{}}>
+    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
+      <Text style={{fontSize: 20}}>
         Add Product
       </Text>
     </View>
   <Formik
-    initialValues={{ name: '', category: '' }}
+    initialValues={{ name: '', category: '', quantity: 0, signature: '' }}
     onSubmit={values => console.log(values)}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -30,17 +32,11 @@ export const AddProduct = props => (
           placeholder='Name'
         />
         </View>
+        
         <View style={{flexDirection: 'column'}}>
         <Text style={{marginLeft: 10}}> Category </Text>
-        <TextInput
-            style={styles.input}
-            onChangeText={handleChange('category')}
-            onBlur={handleBlur('category')}
-            value={values.name}
-            placeholder='Category'
-          />
-        </View>  
-         {/* <Picker
+
+         <Picker
             selectedValue={values.category}
             style={styles.input}
             onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
@@ -49,9 +45,8 @@ export const AddProduct = props => (
             <Picker.Item label="Select a category" value="" />
             <Picker.Item label="Food Items" value="Food Items" />
             <Picker.Item label="Non-Food Items" value="Non-Food Items" />
-            {/* Add more categories as needed */}
-          {/* </Picker> */} 
-
+          </Picker> 
+          </View>
           </View>
         <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
         <View style={{flexDirection: 'column'}}>
@@ -75,7 +70,8 @@ export const AddProduct = props => (
         /> 
         </View> 
           </View>
-        <Button onPress={handleSubmit} title="Submit" style={styles.button}/>
+        {/* <Button onPress={handleSubmit} title="Submit" style={styles.button}/> */}
+        <AppButton label="Add Product" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" />
       </View>
     
     )}
@@ -94,7 +90,7 @@ const styles = StyleSheet.create({
       borderRadius: 10
     },
     button: {
-      backgroundColor: '#00BA9D',
+      color: '#00BA9D',
       borderRadius: 10
 
     }

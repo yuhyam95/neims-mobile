@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import CategoryGrid from '../components/CategoryGrid';
 import AddProduct from '../screens/AddProduct'
+import MyTable from '../components/MyTable';
 const Dashboard = () => {
   
   const route = useRoute();
@@ -13,6 +14,7 @@ const Dashboard = () => {
   const userId =decodedToken._id
   const [user, setUser] = useState(null)
   const [station, setStation] = useState(null)
+  const [products, setProducts] = useState(null)
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -29,16 +31,28 @@ const Dashboard = () => {
       try {
         const res = await axios.get(`http://172.20.10.3:3000/api/station`,{
         params: {
-          name: user?.station.name,
+          name: 'Jos',
         }});
-        setStation(res.data)
-        console.log(res.data[0].category) 
+        setStation(res.data) 
+      } catch (err) {
+      console.log(err)
+      }
+    };
+    const getProducts = async () => {    
+      try {
+        const res = await axios.get(`http://172.20.10.3:3000/api/product`,{
+        params: {
+          stationName: 'Jos',
+        }});
+        setProducts(res.data)
+        console.log(res.data) 
       } catch (err) {
       console.log(err)
       }
     }; 
     getUser();
-    getStation()
+    getStation();
+    getProducts();
   },[]);
 
   return (
@@ -65,7 +79,8 @@ const Dashboard = () => {
       </TouchableOpacity>
       </View>
       </View>
-      <CategoryGrid data={station[0]?.category}/>
+        <CategoryGrid data={station[0]?.category}/>
+        <MyTable products={products}/>
           <Modal
           animationType="slide"
           transparent={true}

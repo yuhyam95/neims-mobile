@@ -1,12 +1,38 @@
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, Text, TextInput, View, StyleSheet, Image } from 'react-native'
 import AppButton from '../components/AppButton'
+import axios from 'axios'
+import JWT from 'expo-jwt'
+import { useNavigation } from '@react-navigation/native'
 
 const Login = () => {
+  const navigation = useNavigation();  
+  const [error, setError] = useState('');
+
+  const handleLogin = async (values) => {
+    try {
+      const response = await axios.post('https://neims-backend.onrender.com/api/auth/login', {
+        email: values.email,
+        password: values.password,
+      });
+
+      const key = 'NEIMS2023userPassword';
+      const token = response.data.token;
+      const decodedToken = JWT.decode(token, key);
+      console.log(decodedToken)
+      navigation.navigate('Dashboard', { decodedToken });
+
+    } catch (error) {
+      console.error('Login failed:', error.response ? error.response.data : error.message);
+      setError('Login failed. Please check your credentials.');
+    }
+  };
+
+
   return (
     <SafeAreaView>   
-    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 400}}>
+    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 350}}>
     <View style={{marginBottom: 10}}>
      <Image source={require('../assets/nema-logo.png')}/>
      </View>
@@ -16,7 +42,7 @@ const Login = () => {
     </View>
   <Formik
     initialValues={{ email: '', password: '',}}
-    onSubmit={values => console.log(values)}
+    onSubmit={handleLogin}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <View style={{ marginTop: 50,}}>
@@ -37,9 +63,9 @@ const Login = () => {
         <Text style={{marginLeft: 10}}> Password </Text>
             <TextInput
             style={styles.input}
-            onChangeText={handleChange('quantity')}
-            onBlur={handleBlur('quantity')}
-            value={values.quantity}
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
+            value={values.password}
             secureTextEntry={true}
             placeholder='Password'
             />    

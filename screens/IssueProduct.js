@@ -7,17 +7,20 @@ import { Picker, PickerIOS } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
 import axios from 'axios';
 
-export const AddProduct = ({stationId, categories, userId}) => {
+export const IssueProduct = ({ products, userId, refreshParent}) => {
   
-  
+  //console.log(products)
   const handleSubmit = async (values) => { 
+    
     const intValue = parseInt(values.quantity, 10);
        
     if (!isNaN(intValue)) {
       try {
         // Make an HTTP POST request using Axios with the integer value
-        const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
+        const response = await axios.post('https://neims-backend.onrender.com/api/sivForm', { ...values, quantity: intValue });
         console.log('Form submitted successfully:', response.data);
+      
+
       } catch (error) {
         console.error('Error submitting form:', error);
       }
@@ -31,49 +34,38 @@ export const AddProduct = ({stationId, categories, userId}) => {
   <SafeAreaView>
     <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
       <Text style={{fontSize: 20}}>
-        Add Product
+        Issue Product
       </Text>
     </View>
   <Formik
-    initialValues={{ srvnumber: '', name: '', category: null, quantity: 0, signature: '', 
-                      station: stationId, storeofficer: userId, tag: 'restock', verificationofficer: userId }}
+    initialValues={{ sivnumber: '', product: null, quantity: 0, destination: '', storeofficer: userId, tag: 'distribution', lga: ''}}
     onSubmit={handleSubmit}
   >
-    {({ handleChange, handleBlur, handleSubmit, values }) => (
+    {({ handleChange, handleBlur, handleSubmit, resetForm, values }) => (
       <View style={{ marginTop: 50,}}>
+      
+      
+      <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>  
       <View style={{flexDirection: 'column'}}>
-      <Text style={{marginLeft: 10}}> SRV Number </Text>
+      <Text style={{marginLeft: 10}}> SIV Number </Text>
         <TextInput
           style={styles.input}
-          onChangeText={handleChange('srvnumber')}
-          onBlur={handleBlur('srvnumber')}
-          value={values.srvnumber}
-          placeholder='SRV number'
+          onChangeText={handleChange('sivnumber')}
+          onBlur={handleBlur('sivnumber')}
+          value={values.sivnumber}
+          placeholder='SIV number'
         />
         </View>
-      <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
-      <View style={{flexDirection: 'column'}}>
-      <Text style={{marginLeft: 10}}> Name </Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={handleChange('name')}
-          onBlur={handleBlur('name')}
-          value={values.name}
-          placeholder='Name'
-        />
-        </View>
-        
         <View style={{flexDirection: 'column'}}>
-        <Text style={{marginLeft: 10}}> Category </Text>
+        <Text style={{marginLeft: 10}}> Product </Text>
 
          <Picker
-            selectedValue={values.category}
+            selectedValue={values.product}
             style={styles.input}
-            onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
-
+            onValueChange={(itemValue, itemIndex) => handleChange('product')(itemValue)}
           >
-            {categories?.map((category) => (
-            <Picker.Item key={category._id} label={category.name} value={category._id} />
+            {products?.map((product) => (
+            <Picker.Item key={product._id} label={product.name} value={product._id} />
           ))}
           </Picker> 
           </View>
@@ -91,17 +83,17 @@ export const AddProduct = ({stationId, categories, userId}) => {
         />
         </View>
         <View style={{flexDirection: 'column', marginTop: 10}}>
-        <Text style={{marginLeft: 10}}> Signature </Text>
+        <Text style={{marginLeft: 10}}> Destination </Text>
         <TextInput
           style={styles.input}
-          onChangeText={handleChange('signature')}
-          onBlur={handleBlur('signature')}
-          value={values.signature}
-          placeholder='Signature'
+          onChangeText={handleChange('destination')}
+          onBlur={handleBlur('destination')}
+          value={values.destination}
+          placeholder='Destination'
         /> 
         </View> 
-          </View>
-        {/* <Button onPress={handleSubmit} title="Submit" style={styles.button}/> */}
+        </View>
+        
         <AppButton label="Add Product" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" />
       </View>
     
@@ -128,4 +120,4 @@ const styles = StyleSheet.create({
   });
 
 
-export default AddProduct;
+export default IssueProduct;

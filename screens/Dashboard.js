@@ -7,6 +7,7 @@ import axios from 'axios';
 import CategoryGrid from '../components/CategoryGrid';
 import AddProduct from '../screens/AddProduct'
 import MyTable from '../components/MyTable';
+import IssueProduct from './IssueProduct';
 const Dashboard = () => {
   
   const route = useRoute();
@@ -16,6 +17,13 @@ const Dashboard = () => {
   const [station, setStation] = useState([])
   const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
+  const [issueModalVisible, setIssueModalVisible] = useState(false);
+
+    const [refreshFlag, setRefreshFlag] = useState(false);
+
+    const refreshParent = () => {
+      setRefreshFlag(!refreshFlag);
+    };
 
   useEffect(() => {
     const getUser = async () => {    
@@ -46,7 +54,7 @@ const Dashboard = () => {
           stationName: user?.station.name,
         }});
         setProducts(res.data) 
-        console.log(res.data)
+        //console.log(res.data)
       } catch (err) {
       console.log(err)
       }
@@ -56,7 +64,8 @@ const Dashboard = () => {
     getProducts();
   },[]);
 
-
+  //console.log(station?.products)
+  console.log(products)
   return (
     <SafeAreaView>
     <View style={{marginTop: 20, backgroundColor:'#FBFAFA'}}>
@@ -74,7 +83,7 @@ const Dashboard = () => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
-                        width: '30%', justifyContent:'center', borderRadius: 10}}>
+                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white'}}>
           Issue Product
         </Text>
@@ -103,11 +112,31 @@ const Dashboard = () => {
               <AddProduct stationId={station[0]?._id} userId={userId} categories={station[0]?.category}/>
             </View>
           </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={issueModalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setIssueModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              {/* Close button (X) at the top right corner */}
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setIssueModalVisible(!issueModalVisible)}>
+                <Text style={styles.textStyle}>X</Text>
+              </Pressable>
+              <IssueProduct userId={userId} products={products} refreshParent={refreshParent}/>
+            </View>
+          </View>
         </Modal>     
     </View>
     </SafeAreaView>
   );
-};
+};  
 
 const styles = StyleSheet.create({
   centeredView: {

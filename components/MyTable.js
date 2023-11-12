@@ -9,6 +9,11 @@ function MyTable({ products } ) {
 
   return (
     <ScrollView>
+      <View>
+        <Text style={{fontSize: 20, marginLeft: 15}}>
+          Product List
+        </Text>
+      </View>
       <View style={styles.container}>
         <View style={styles.tableHeader}>
           <Text style={styles.columnHeader}>Item</Text>
@@ -57,19 +62,20 @@ const styles = StyleSheet.create({
     margin: 10,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: 'gray'
+    borderColor: '#ddd'
   },
   tableHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    paddingBottom: 5,
+    paddingBottom: 15,
   },
   columnHeader: {
     flex: 1,
     textAlign: 'center',
     fontWeight: 'bold',
+    fontSize: 18
   },
   tableFooter: {
     marginTop: 10,

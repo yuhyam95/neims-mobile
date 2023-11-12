@@ -1,13 +1,40 @@
 
 // Formik x React Native example
 import React, { useState } from 'react';
-import { Button, SafeAreaView, TextInput, View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform } from 'react-native';
 import { Formik } from 'formik';
 import { Picker, PickerIOS } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
+import axios from 'axios';
 
-export const AddProduct = props => (
+export const AddProduct = ({stationId, categories, userId}) => {
+  
+  //console.log(stationId)
+  
+  const handleSubmit = async (values) => { 
+    const intValue = parseInt(values.quantity, 10);
+       
+    if (!isNaN(intValue)) {
+      try {
+        // Make an HTTP POST request using Axios with the integer value
+        const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
+        console.log('Form submitted successfully:', response.data);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+      }
+    } else {
+      console.error('Invalid quantity value:', values.quantity);
+    }
+    
+    // try {
+    //   const res = await axios.post(`https://neims-backend.onrender.com/api/product`, values);
+    //   console.log('Form submitted successfully:', res.data); 
+    // } catch (err) {
+    // console.log(err.message)
+    // }
+  };
 
+  return (
   <SafeAreaView>
     <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
       <Text style={{fontSize: 20}}>
@@ -15,13 +42,23 @@ export const AddProduct = props => (
       </Text>
     </View>
   <Formik
-    initialValues={{ name: '', category: '', quantity: 0, signature: '' }}
-    onSubmit={values => console.log(values)}
+    initialValues={{ srvnumber: '', name: '', category: null, quantity: 0, signature: '', 
+                      station: stationId, storeofficer: userId, tag: 'restock', verificationofficer: userId }}
+    onSubmit={handleSubmit}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <View style={{ marginTop: 50,}}>
-        <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
-      
+      <View style={{flexDirection: 'column'}}>
+      <Text style={{marginLeft: 10}}> SRV Number </Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={handleChange('srvnumber')}
+          onBlur={handleBlur('srvnumber')}
+          value={values.srvnumber}
+          placeholder='SRV number'
+        />
+        </View>
+      <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
       <View style={{flexDirection: 'column'}}>
       <Text style={{marginLeft: 10}}> Name </Text>
         <TextInput
@@ -42,9 +79,9 @@ export const AddProduct = props => (
             onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
 
           >
-            <Picker.Item label="Select a category" value="" />
-            <Picker.Item label="Food Items" value="Food Items" />
-            <Picker.Item label="Non-Food Items" value="Non-Food Items" />
+            {categories?.map((category) => (
+            <Picker.Item key={category._id} label={category.name} value={category._id} />
+          ))}
           </Picker> 
           </View>
           </View>
@@ -53,6 +90,7 @@ export const AddProduct = props => (
         <Text style={{marginLeft: 10}}> Quantity </Text>  
         <TextInput
           style={styles.input}
+          inputMode='numeric'
           onChangeText={handleChange('quantity')}
           onBlur={handleBlur('quantity')}
           value={values.quantity}
@@ -77,7 +115,8 @@ export const AddProduct = props => (
     )}
   </Formik>
   </SafeAreaView>
-);
+)
+};
 
 const styles = StyleSheet.create({
     input: {
@@ -92,7 +131,6 @@ const styles = StyleSheet.create({
     button: {
       color: '#00BA9D',
       borderRadius: 10
-
     }
   });
 

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   cell: {
     flex: 1,

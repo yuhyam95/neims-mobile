@@ -13,8 +13,8 @@ const Dashboard = () => {
   const decodedToken = route.params?.decodedToken;
   const userId =decodedToken._id
   const [user, setUser] = useState(null)
-  const [station, setStation] = useState(null)
-  const [products, setProducts] = useState(null)
+  const [station, setStation] = useState([])
+  const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -29,23 +29,24 @@ const Dashboard = () => {
     
     const getStation = async () => {    
       try {
-        const res = await axios.get(`http://172.20.10.3:3000/api/station`,{
+        const res = await axios.get(`https://neims-backend.onrender.com/api/station`,{
         params: {
-          name: 'Jos',
+          name: user?.station.name,
         }});
-        setStation(res.data) 
+        setStation(res.data)
+        //console.log(res.data[0]._id) 
       } catch (err) {
       console.log(err)
       }
     };
     const getProducts = async () => {    
       try {
-        const res = await axios.get(`http://172.20.10.3:3000/api/product`,{
+        const res = await axios.get(`https://neims-backend.onrender.com/api/product`,{
         params: {
-          stationName: 'Jos',
+          stationName: user?.station.name,
         }});
-        setProducts(res.data)
-        console.log(res.data) 
+        setProducts(res.data) 
+        console.log(res.data)
       } catch (err) {
       console.log(err)
       }
@@ -54,6 +55,7 @@ const Dashboard = () => {
     getStation();
     getProducts();
   },[]);
+
 
   return (
     <SafeAreaView>
@@ -79,6 +81,7 @@ const Dashboard = () => {
       </TouchableOpacity>
       </View>
       </View>
+      
         <CategoryGrid data={station[0]?.category}/>
         <MyTable products={products}/>
           <Modal
@@ -97,7 +100,7 @@ const Dashboard = () => {
                 onPress={() => setModalVisible(!modalVisible)}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <AddProduct />
+              <AddProduct stationId={station[0]?._id} userId={userId} categories={station[0]?.category}/>
             </View>
           </View>
         </Modal>     

@@ -64,6 +64,7 @@ export const IssueProduct = ({ products, userId, refreshParent}) => {
             style={styles.input}
             onValueChange={(itemValue, itemIndex) => handleChange('product')(itemValue)}
           >
+             <Picker.Item label="Select a product" value="" />
             {products?.map((product) => (
             <Picker.Item key={product._id} label={product.name} value={product._id} />
           ))}

@@ -18,6 +18,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
         // Make an HTTP POST request using Axios with the integer value
         const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
         console.log('Form submitted successfully:', response.data);
+        
       } catch (error) {
         console.error('Error submitting form:', error);
       }
@@ -72,6 +73,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
             onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
 
           >
+            <Picker.Item label="Select Category" value="" />
             {categories?.map((category) => (
             <Picker.Item key={category._id} label={category.name} value={category._id} />
           ))}

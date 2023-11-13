@@ -19,52 +19,80 @@ const Dashboard = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
 
-    const [refreshFlag, setRefreshFlag] = useState(false);
 
-    const refreshParent = () => {
-      setRefreshFlag(!refreshFlag);
-    };
+  // useEffect(() => {
+  //   const getUser = async () => {    
+  //     try {
+  //       const res = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
+  //       setUser(res.data) 
+  //     } catch (err) {
+  //     console.log(err)
+  //     }
+  //   };
+    
+  //   const getStation = async () => {    
+  //     try {
+  //       const res = await axios.get(`https://neims-backend.onrender.com/api/station`,{
+  //       params: {
+  //         name: user?.station.name,
+  //       }});
+  //       setStation(res.data)
+  //       //console.log(res.data[0]._id) 
+  //     } catch (err) {
+  //     console.log(err)
+  //     }
+  //   };
+  //   const getProducts = async () => {    
+  //     try {
+  //       const res = await axios.get(`https://neims-backend.onrender.com/api/product`,{
+  //       params: {
+  //         stationName: user?.station.name,
+  //       }});
+  //       setProducts(res.data) 
+  //       //console.log(res.data)
+  //     } catch (err) {
+  //     console.log(err)
+  //     }
+  //   }; 
+    
+  //   getUser().then(() => {
+  //     getStation();
+  //     getProducts(); 
+  // });
+  // },[userId]);
+
+  
 
   useEffect(() => {
-    const getUser = async () => {    
-      try {
-        const res = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
-        setUser(res.data) 
-      } catch (err) {
-      console.log(err)
-      }
-    };
-    
-    const getStation = async () => {    
-      try {
-        const res = await axios.get(`https://neims-backend.onrender.com/api/station`,{
-        params: {
-          name: user?.station.name,
-        }});
-        setStation(res.data)
-        //console.log(res.data[0]._id) 
-      } catch (err) {
-      console.log(err)
-      }
-    };
-    const getProducts = async () => {    
-      try {
-        const res = await axios.get(`https://neims-backend.onrender.com/api/product`,{
-        params: {
-          stationName: user?.station.name,
-        }});
-        setProducts(res.data) 
-        //console.log(res.data)
-      } catch (err) {
-      console.log(err)
-      }
-    }; 
-    getUser();
-    getStation();
-    getProducts();
-  },[]);
+    const fetchData = async () => {
+        try {
+            const userResponse = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
+            setUser(userResponse.data);
 
-  //console.log(station?.products)
+            if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
+                const stationResponse = await axios.get(`https://neims-backend.onrender.com/api/station`, {
+                    params: {
+                        name: userResponse.data.station.name,
+                    }
+                });
+                setStation(stationResponse.data);
+
+                const productsResponse = await axios.get(`https://neims-backend.onrender.com/api/product`, {
+                    params: {
+                        stationName: userResponse.data.station.name,
+                    }
+                });
+                setProducts(productsResponse.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    fetchData();
+}, [userId]); // Include userId in the dependency array
+
+
   console.log(products)
   return (
     <SafeAreaView>
@@ -109,7 +137,7 @@ const Dashboard = () => {
                 onPress={() => setModalVisible(!modalVisible)}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <AddProduct stationId={station[0]?._id} userId={userId} categories={station[0]?.category}/>
+              <AddProduct stationId={station[0]?._id} userId={userId} categories={station[0]?.category} />
             </View>
           </View>
         </Modal>
@@ -129,7 +157,7 @@ const Dashboard = () => {
                 onPress={() => setIssueModalVisible(!issueModalVisible)}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <IssueProduct userId={userId} products={products} refreshParent={refreshParent}/>
+              <IssueProduct userId={userId} products={products} />
             </View>
           </View>
         </Modal>     

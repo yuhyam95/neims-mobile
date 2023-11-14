@@ -49,8 +49,8 @@ export const AddProduct = ({stationId, categories, userId}) => {
 
       <TouchableOpacity style={{backgroundColor: "#00BA9D", height: 40, alignSelf: 'center', 
                         marginTop: 15, width: '40%', justifyContent:'center', borderRadius: 10}} 
-                        onPress={() => () => {setShowError(false)
-                                              setShowForm(true)}}>
+                        onPress={() => {setShowError(false)
+                                        setShowForm(true)}}>
         <Text style={{alignSelf: 'center', color: 'white'}}>
           Try again
         </Text>
@@ -76,7 +76,6 @@ export const AddProduct = ({stationId, categories, userId}) => {
       </TouchableOpacity>
 
     </View>
-    
     }
     {showForm &&
     <>
@@ -102,6 +101,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
           placeholder='SRV number'
         />
         </View>
+
       <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
       <View style={{flexDirection: 'column'}}>
       <Text style={{marginLeft: 10}}> Name </Text>
@@ -115,11 +115,9 @@ export const AddProduct = ({stationId, categories, userId}) => {
         </View>
         
         <View style={{flexDirection: 'column'}}>
-        <Text style={{marginLeft: 10}}> Category </Text>
-
          <Picker
             selectedValue={values.category}
-            style={styles.input}
+            style={styles.picker}
             onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
 
           >
@@ -176,6 +174,15 @@ const styles = StyleSheet.create({
       borderColor: '#E2E1E1',
       borderRadius: 10
     },
+    picker:{
+      height: 40,
+      margin: 12,
+      borderWidth: 5,
+      padding: 10,
+      width: 350,
+      borderColor: '#E2E1E1',
+      borderRadius: 10
+    },  
     button: {
       color: '#00BA9D',
       borderRadius: 10

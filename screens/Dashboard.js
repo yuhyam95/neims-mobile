@@ -18,82 +18,36 @@ const Dashboard = () => {
   const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
-
-
-  // useEffect(() => {
-  //   const getUser = async () => {    
-  //     try {
-  //       const res = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
-  //       setUser(res.data) 
-  //     } catch (err) {
-  //     console.log(err)
-  //     }
-  //   };
-    
-  //   const getStation = async () => {    
-  //     try {
-  //       const res = await axios.get(`https://neims-backend.onrender.com/api/station`,{
-  //       params: {
-  //         name: user?.station.name,
-  //       }});
-  //       setStation(res.data)
-  //       //console.log(res.data[0]._id) 
-  //     } catch (err) {
-  //     console.log(err)
-  //     }
-  //   };
-  //   const getProducts = async () => {    
-  //     try {
-  //       const res = await axios.get(`https://neims-backend.onrender.com/api/product`,{
-  //       params: {
-  //         stationName: user?.station.name,
-  //       }});
-  //       setProducts(res.data) 
-  //       //console.log(res.data)
-  //     } catch (err) {
-  //     console.log(err)
-  //     }
-  //   }; 
-    
-  //   getUser().then(() => {
-  //     getStation();
-  //     getProducts(); 
-  // });
-  // },[userId]);
-
   
-
   useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const userResponse = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
-            setUser(userResponse.data);
+    fetchData();
+}, [userId]); 
 
-            if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
-                const stationResponse = await axios.get(`https://neims-backend.onrender.com/api/station`, {
-                    params: {
-                        name: userResponse.data.station.name,
-                    }
-                });
-                setStation(stationResponse.data);
+const fetchData = async () => {
+      try {
+          const userResponse = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
+          setUser(userResponse.data);
 
-                const productsResponse = await axios.get(`https://neims-backend.onrender.com/api/product`, {
-                    params: {
-                        stationName: userResponse.data.station.name,
-                    }
-                });
-                setProducts(productsResponse.data);
-            }
-        } catch (error) {
-            console.error(error);
-        }
+          if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
+              const stationResponse = await axios.get(`https://neims-backend.onrender.com/api/station`, {
+                  params: {
+                      name: userResponse.data.station.name,
+                  }
+              });
+              setStation(stationResponse.data);
+
+              const productsResponse = await axios.get(`https://neims-backend.onrender.com/api/product`, {
+                  params: {
+                      stationName: userResponse.data.station.name,
+                  }
+              });
+              setProducts(productsResponse.data);
+          }
+      } catch (error) {
+          console.error(error);
+      }
     };
 
-    fetchData();
-}, [userId]); // Include userId in the dependency array
-
-
-  console.log(products)
   return (
     <SafeAreaView>
     <View style={{marginTop: 20, backgroundColor:'#FBFAFA'}}>
@@ -131,16 +85,16 @@ const Dashboard = () => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              {/* Close button (X) at the top right corner */}
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
+                onPress={() => {setModalVisible(!modalVisible); fetchData()}}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
               <AddProduct stationId={station[0]?._id} userId={userId} categories={station[0]?.category} />
             </View>
           </View>
         </Modal>
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -154,7 +108,7 @@ const Dashboard = () => {
               {/* Close button (X) at the top right corner */}
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setIssueModalVisible(!issueModalVisible)}>
+                onPress={() => {setIssueModalVisible(!issueModalVisible); fetchData()}}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
               <IssueProduct userId={userId} products={products} />

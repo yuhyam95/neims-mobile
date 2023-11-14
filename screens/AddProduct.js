@@ -91,6 +91,8 @@ export const AddProduct = ({stationId, categories, userId}) => {
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <View style={{ marginTop: 50,}}>
+  
+      <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
       <View style={{flexDirection: 'column'}}>
       <Text> SRV Number </Text>
         <TextInput
@@ -101,8 +103,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
           placeholder='SRV number'
         />
         </View>
-
-      <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
+        
       <View style={{flexDirection: 'column'}}>
       <Text style={{marginLeft: 10}}> Name </Text>
         <TextInput
@@ -114,19 +115,6 @@ export const AddProduct = ({stationId, categories, userId}) => {
         />
         </View>
         
-        <View style={{flexDirection: 'column'}}>
-         <Picker
-            selectedValue={values.category}
-            style={styles.picker}
-            onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
-
-          >
-            <Picker.Item label="Select Category" value="" />
-            {categories?.map((category) => (
-            <Picker.Item key={category._id} label={category.name} value={category._id} />
-          ))}
-          </Picker> 
-          </View>
           </View>
         <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
         <View style={{flexDirection: 'column'}}>
@@ -140,18 +128,21 @@ export const AddProduct = ({stationId, categories, userId}) => {
           placeholder='Quantity'
         />
         </View>
-        <View style={{flexDirection: 'column', marginTop: 10}}>
-        <Text style={{marginLeft: 10}}> Signature </Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={handleChange('signature')}
-          onBlur={handleBlur('signature')}
-          value={values.signature}
-          placeholder='Signature'
-        /> 
-        </View> 
+        <View style={{flexDirection: 'column'}}>
+          <Picker
+            selectedValue={values.category}
+            style={styles.picker}
+            onValueChange={(itemValue, itemIndex) => handleChange('category')(itemValue)}
+
+          >
+            <Picker.Item label="Select Category" value="" />
+            {categories?.map((category) => (
+            <Picker.Item key={category._id} label={category.name} value={category._id} />
+          ))}
+          </Picker>
+          
           </View>
-        {/* <Button onPress={handleSubmit} title="Submit" style={styles.button}/> */}
+          </View>
         <AppButton label="Add Product" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" />
       </View>
     
@@ -177,7 +168,7 @@ const styles = StyleSheet.create({
     picker:{
       height: 40,
       margin: 12,
-      borderWidth: 5,
+      borderWidth: 1,
       padding: 10,
       width: 350,
       borderColor: '#E2E1E1',

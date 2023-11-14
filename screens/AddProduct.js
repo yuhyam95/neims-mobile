@@ -1,14 +1,18 @@
 
 // Formik x React Native example
 import React, { useState } from 'react';
-import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform } from 'react-native';
+import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { Picker, PickerIOS } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
 import axios from 'axios';
+import { AntDesign } from '@expo/vector-icons';
 
 export const AddProduct = ({stationId, categories, userId}) => {
   
+  const [showDone, setShowDone] = useState(false)
+  const [showError, setShowError] = useState(false)
+  const [showForm, setShowForm] = useState(true)
   
   const handleSubmit = async (values) => { 
     const intValue = parseInt(values.quantity, 10);
@@ -18,9 +22,13 @@ export const AddProduct = ({stationId, categories, userId}) => {
         // Make an HTTP POST request using Axios with the integer value
         const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
         console.log('Form submitted successfully:', response.data);
+        setShowForm(false)
+        setShowDone(true)
         
       } catch (error) {
         console.error('Error submitting form:', error);
+        setShowForm(false)
+        setShowError(true)
       }
     } else {
       console.error('Invalid quantity value:', values.quantity);
@@ -30,7 +38,49 @@ export const AddProduct = ({stationId, categories, userId}) => {
 
   return (
   <SafeAreaView>
-    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
+    
+    {showError &&
+      <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
+      <Text style={{fontSize: 20, marginBottom: 10}}>
+        Failed to add product!
+      </Text>
+      
+      <AntDesign name="closecircle" size={120} color="#F8507E" />
+
+      <TouchableOpacity style={{backgroundColor: "#00BA9D", height: 40, alignSelf: 'center', 
+                        marginTop: 15, width: '40%', justifyContent:'center', borderRadius: 10}} 
+                        onPress={() => () => {setShowError(false)
+                                              setShowForm(true)}}>
+        <Text style={{alignSelf: 'center', color: 'white'}}>
+          Try again
+        </Text>
+      </TouchableOpacity>
+    </View>
+    }
+    
+    {showDone && 
+      <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
+      <Text style={{fontSize: 20, marginBottom: 10}}>
+        Product successfully added
+      </Text>
+
+      <AntDesign name="checkcircle" size={120} color="#00BA9D" />
+
+      <TouchableOpacity style={{backgroundColor: "#00BA9D", height: 40, alignSelf: 'center', 
+                        marginTop: 15, width: '60%', justifyContent:'center', borderRadius: 10}} 
+                        onPress={() => {setShowDone(false)
+                                        setShowForm(true)}}>
+        <Text style={{alignSelf: 'center', color: 'white'}}>
+          Add another product
+        </Text>
+      </TouchableOpacity>
+
+    </View>
+    
+    }
+    {showForm &&
+    <>
+      <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
       <Text style={{fontSize: 20}}>
         Add Product
       </Text>
@@ -43,7 +93,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <View style={{ marginTop: 50,}}>
       <View style={{flexDirection: 'column'}}>
-      <Text style={{marginLeft: 10}}> SRV Number </Text>
+      <Text> SRV Number </Text>
         <TextInput
           style={styles.input}
           onChangeText={handleChange('srvnumber')}
@@ -109,6 +159,9 @@ export const AddProduct = ({stationId, categories, userId}) => {
     
     )}
   </Formik>
+  </>
+  }
+
   </SafeAreaView>
 )
 };

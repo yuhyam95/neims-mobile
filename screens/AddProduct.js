@@ -1,9 +1,9 @@
 
 // Formik x React Native example
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
-import { Picker, PickerIOS } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
 import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
@@ -13,13 +13,28 @@ export const AddProduct = ({stationId, categories, userId}) => {
   const [showDone, setShowDone] = useState(false)
   const [showError, setShowError] = useState(false)
   const [showForm, setShowForm] = useState(true)
+  const [products, setProducts] = useState(null)
   
+  useEffect(() => {
+    fetchProducts();
+}, [userId]); 
+
+const fetchProducts = async () => {
+      try {
+          const res = await axios.get(`https://neims-backend.onrender.com/api/singleProduct`);
+          console.log(res.data)  
+          setProducts(res.data);
+          }
+       catch (error) {
+          console.error(error);
+      }
+    };
+
   const handleSubmit = async (values) => { 
     const intValue = parseInt(values.quantity, 10);
        
     if (!isNaN(intValue)) {
       try {
-        // Make an HTTP POST request using Axios with the integer value
         const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
         console.log('Form submitted successfully:', response.data);
         setShowForm(false)
@@ -104,7 +119,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
         />
         </View>
         
-      <View style={{flexDirection: 'column'}}>
+      {/* <View style={{flexDirection: 'column'}}>
       <Text style={{marginLeft: 10}}> Name </Text>
         <TextInput
           style={styles.input}
@@ -113,7 +128,22 @@ export const AddProduct = ({stationId, categories, userId}) => {
           value={values.name}
           placeholder='Name'
         />
-        </View>
+        </View> */}
+
+          <View style={{flexDirection: 'column'}}>
+          <Picker
+            selectedValue={values.name}
+            style={styles.picker}
+            onValueChange={(itemValue, itemIndex) => handleChange('name')(itemValue)}
+
+          >
+            <Picker.Item label="Select Product" value="" />
+            {products?.map((product) => (
+            <Picker.Item key={product._id} label={product.name} value={product.name} />
+          ))}
+          </Picker>
+          
+          </View>
         
           </View>
         <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>

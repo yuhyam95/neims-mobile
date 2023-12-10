@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
-import { Picker } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
-import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
 // import DatePicker from 'react-native-date-picker'
 import DateTimePicker from '@react-native-community/datetimepicker';
+import apiClient from '../service/apiClient';
 
 
 export const AssessmentForm = () => {
@@ -26,25 +25,48 @@ export const AssessmentForm = () => {
     }
   };
 
+  const convertToInt = (value) => {
+    const intValue = parseInt(value, 10);
+    return isNaN(intValue) ? null : intValue;
+  };
+
   const handleSubmit = async (values) => { 
-     const intValue = parseInt(values.numberofchildren, 10);
+     const affectedpersons = convertToInt(values.numberofaffectedpersons);
+     const affectedhouseholds = convertToInt(values.numberofhouseholdaffected);
+     const men = convertToInt(values.numberofmen);
+     const women = convertToInt(values.numberofwomen);
+     const children = convertToInt(values.numberofchildren);
+     const injured = convertToInt(values.numberofinjured);
+     const death = convertToInt(values.numberofdeath);
+     const completelydamaged = convertToInt(values.numberofhousescompletelydamaged);
+     const partiallydamaged = convertToInt(values.numberofhousespartiallydamaged);
        
-    // if (!isNaN(intValue)) {
-    //   try {
-    //     const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
-    //     console.log('Form submitted successfully:', response.data);
-    //     setShowForm(false)
-    //     setShowDone(true)
+    if (!isNaN(affectedpersons)) {
+      try {
+        const response = await apiClient.post('/report', { ...values, 
+            numberofaffectedpersons: affectedpersons,
+            numberofhouseholdaffected: affectedhouseholds,
+            numberofmen: men,
+            numberofwomen: women,
+            numberofchildren: children,
+            numberofinjured: injured,
+            numberofdeath: death,
+            numberofhousescompletelydamaged: completelydamaged,
+            numberofhousespartiallydamaged: partiallydamaged
+            });
+        console.log('Form submitted successfully:', response.data);
+        setShowForm(false)
+        setShowDone(true)
         
-    //   } catch (error) {
-    //     console.error('Error submitting form:', error);
-    //     setShowForm(false)
-    //     setShowError(true)
-    //   }
-    // } else {
-    //   console.error('Invalid quantity value:', values.quantity);
-    // }
-    console.log(typeof(intValue))
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setShowForm(false)
+        setShowError(true)
+      }
+    } else {
+      console.error('Invalid quantity value:', values.affectedpersons);
+    }
+   
     
   };
 

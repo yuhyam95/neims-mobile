@@ -7,6 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
 import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
+import apiClient from '../service/apiClient';
 
 export const AddProduct = ({stationId, categories, userId}) => {
   
@@ -21,7 +22,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
 
 const fetchProducts = async () => {
       try {
-          const res = await axios.get(`https://neims-backend.onrender.com/api/singleProduct`);
+          const res = await apiClient.get(`/singleProduct`);
           console.log(res.data)  
           setProducts(res.data);
           }
@@ -35,7 +36,7 @@ const fetchProducts = async () => {
        
     if (!isNaN(intValue)) {
       try {
-        const response = await axios.post('https://neims-backend.onrender.com/api/product', { ...values, quantity: intValue });
+        const response = await apiClient.post('/product', { ...values, quantity: intValue });
         console.log('Form submitted successfully:', response.data);
         setShowForm(false)
         setShowDone(true)
@@ -188,10 +189,10 @@ const fetchProducts = async () => {
 const styles = StyleSheet.create({
     input: {
       height: 40,
-      margin: 12,
+      margin: 7,
       borderWidth: 1,
       padding: 10,
-      width: 350,
+      width: 300,
       borderColor: '#E2E1E1',
       borderRadius: 10
     },

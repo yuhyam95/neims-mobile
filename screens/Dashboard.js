@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Alert, Pressable, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
 import CategoryGrid from '../components/CategoryGrid';
 import AddProduct from '../screens/AddProduct'
 import MyTable from '../components/MyTable';
 import IssueProduct from './IssueProduct';
+import apiClient from '../service/apiClient';
 const Dashboard = () => {
   
   const route = useRoute();
@@ -25,18 +25,18 @@ const Dashboard = () => {
 
 const fetchData = async () => {
       try {
-          const userResponse = await axios.get(`https://neims-backend.onrender.com/api/user/${userId}`);
+          const userResponse = await apiClient.get(`/user/${userId}`);
           setUser(userResponse.data);
 
           if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
-              const stationResponse = await axios.get(`https://neims-backend.onrender.com/api/station`, {
+              const stationResponse = await apiClient.get(`/station`, {
                   params: {
                       name: userResponse.data.station.name,
                   }
               });
               setStation(stationResponse.data);
 
-              const productsResponse = await axios.get(`https://neims-backend.onrender.com/api/product`, {
+              const productsResponse = await apiClient.get(`/product`, {
                   params: {
                       stationName: userResponse.data.station.name,
                   }
@@ -105,7 +105,6 @@ const fetchData = async () => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              {/* Close button (X) at the top right corner */}
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {setIssueModalVisible(!issueModalVisible); fetchData()}}>
@@ -128,10 +127,10 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    //margin: 20,
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 10,
+    padding: 15,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

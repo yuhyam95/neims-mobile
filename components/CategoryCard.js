@@ -14,7 +14,7 @@ const CategoryCard = ({ name, total, color }) => {
           <View style={styles.hStack}>
             <Text style={[styles.statLabel, { color: 'white' }]}>{name}</Text>
           </View>
-          <Text style={[styles.statNumber, { color: 'white', fontSize: 42 }]}>{total}</Text>
+          <Text style={[styles.statNumber, { color: 'white', fontSize: 32 }]}>{total}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -24,10 +24,10 @@ const CategoryCard = ({ name, total, color }) => {
 const styles = StyleSheet.create({
   card: {
     margin: 15,
-    width: 300,
+    width: 250,
     borderRadius: 10,
     elevation: 10,
-    height: 100
+    height: 80
   },
   cardBody: {
     // Add your card body styles here

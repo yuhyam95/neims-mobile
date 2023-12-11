@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
-import { Picker, PickerIOS } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
-import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
+import apiClient from '../service/apiClient';
 
 export const IssueProduct = ({ products, userId, refreshParent}) => {
   
@@ -22,7 +22,7 @@ export const IssueProduct = ({ products, userId, refreshParent}) => {
     if (!isNaN(intValue)) {
       try {
         // Make an HTTP POST request using Axios with the integer value
-        const response = await axios.post('https://neims-backend.onrender.com/api/sivForm', { ...values, quantity: intValue });
+        const response = await apiClient.post('/sivForm', { ...values, quantity: intValue });
         console.log('Form submitted successfully:', response.data);
         setShowForm(false)
         setShowDone(true)

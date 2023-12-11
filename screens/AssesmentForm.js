@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
-import { Formik } from 'formik';
+import { Formik } from 'formik';``
 import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
 // import DatePicker from 'react-native-date-picker'
@@ -355,14 +355,15 @@ export const AssessmentForm = () => {
 
 const styles = StyleSheet.create({
     text: {
-        marginLeft: 15
+        marginLeft: 15,
+        fontSize: 13
     },
     input: {
       height: 40,
       margin: 12,
       borderWidth: 1,
       padding: 10,
-      width: 220,
+      width: 180,
       borderColor: '#E2E1E1',
       borderRadius: 10
     },

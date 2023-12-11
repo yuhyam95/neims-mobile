@@ -32,7 +32,7 @@ const Login = () => {
 
   return (
     <SafeAreaView>   
-    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 350}}>
+    <View style={{alignItems:'center', justifyContent: 'center', marginTop: 200}}>
     <View style={{marginBottom: 10}}>
      <Image source={require('../assets/nema-logo.png')}/>
      </View>
@@ -45,7 +45,7 @@ const Login = () => {
     onSubmit={handleLogin}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
-      <View style={{ marginTop: 50,}}>
+      <View style={{ marginTop: 30}}>
         <View style={{flexDirection: 'column', alignItems:'center', justifyContent: 'center'}}>
       
       <View style={{flexDirection: 'column'}}>
@@ -76,7 +76,7 @@ const Login = () => {
     
     )}
   </Formik>
-        <View style={{alignSelf: 'center', marginTop: 200, flexDirection: 'column'}}>
+        <View style={{alignSelf: 'center', marginTop: 150, flexDirection: 'column'}}>
             <Text style={{textAlign: 'center'}}>
                National Emergency Management Agency Inventory Management System  
             </Text>

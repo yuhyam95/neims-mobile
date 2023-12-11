@@ -6,47 +6,39 @@ import { useNavigation } from '@react-navigation/native';
 
 function TableRows({ name, quantity, reason, date, category }) {
   
-//   const navigation = useNavigation();
-//   const handleClick = () => {
-//     navigation.navigate('bincardpage');
-//   };
 
   return (
     <View style={styles.row}>
       <View style={styles.cell}>
-        <Text>{name}</Text>
+        <Text style={styles.text}>{name}</Text>
       </View>
       <View style={styles.cell}>
         <View style={styles.quantityBox}>
-          <Text>{quantity}</Text>
+          <Text style={styles.text}>{quantity}</Text>
         </View>
       </View>
       <View style={styles.cell}>
         <View style={[styles.reasonBox, { backgroundColor: reason === 'restock' ? '#BAF2E0' : '#FBD8D8' }]}>
-          <Text style={{ color: reason === 'restock' ? '#2FD197' : '#EB4547' }}>
+          <Text style={{ color: reason === 'restock' ? '#2FD197' : '#EB4547', fontSize: 13 }}>
             {reason === 'restock' ? 'RESTOCK' : 'DISTRIBUTION'}
           </Text>
         </View>
       </View>
-      <View style={styles.cell}><Text>{category}</Text></View>
-      <View style={styles.cell}><Text>{date}</Text></View>
-      {/* {showBinCard && (
-        <View style={styles.cell}>
-          <TouchableOpacity style={styles.button} onPress={handleClick}>
-            <Text style={styles.buttonText}>BIN CARD</Text>
-          </TouchableOpacity>
-        </View>
-      )} */}
+      <View style={styles.cell}><Text style={styles.text}>{category}</Text></View>
+      <View style={styles.cell}><Text style={styles.text}>{date}</Text></View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  text:{
+    fontSize: 13
+  },
   row: {
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    paddingVertical: 15,
+    paddingVertical: 10,
   },
   cell: {
     flex: 1,

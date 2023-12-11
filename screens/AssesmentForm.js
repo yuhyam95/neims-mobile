@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
+import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity, Button } from 'react-native';
 import { Formik } from 'formik';``
 import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
-// import DatePicker from 'react-native-date-picker'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import apiClient from '../service/apiClient';
-
+ import * as Location from 'expo-location';
 
 export const AssessmentForm = () => {
-  
+
+  const [location, setLocation] = useState(null)  
   const [showDone, setShowDone] = useState(false)
   const [showError, setShowError] = useState(false)
   const [showForm, setShowForm] = useState(true)
+  const [dateField, setDateField] = useState(null);
   const [dateofoccurence, setDateOfOccurence] = useState(new Date());
   const [datereported, setDateReported] = useState(new Date());
   const [dateofassessment, setDateOfAssessment] = useState(new Date());
@@ -20,9 +21,22 @@ export const AssessmentForm = () => {
 
   const handleDateChange = (event, selectedDate) => {
     setShowPicker(false);
+
     if (selectedDate) {
-      setDate(selectedDate);
+      if (dateField === 'dateofoccurence') {
+        setDateOfOccurence(selectedDate);
+      } else if (dateField === 'datereported') {
+        setDateReported(selectedDate);
+      }
+      else if (dateField === 'dateofassessment') {
+        setDateOfAssessment(selectedDate);
+      }
     }
+  };
+
+  const showDatePicker = (field) => {
+    setShowPicker(true);
+    setDateField(field);
   };
 
   const convertToInt = (value) => {
@@ -66,9 +80,24 @@ export const AssessmentForm = () => {
     } else {
       console.error('Invalid quantity value:', values.affectedpersons);
     }
-   
     
   };
+
+      const getLocation = async () => {
+        try {
+          const { status } = await Location.requestForegroundPermissionsAsync();
+          
+          if (status === 'granted') {
+            const locationData = await Location.getCurrentPositionAsync({});
+            setLocation(locationData.coords);
+          } else {
+            console.log('Location permission denied');
+          }
+        } catch (error) {
+          console.error('Error getting location:', error);
+        }
+      };
+
 
   return (
   <SafeAreaView>
@@ -175,7 +204,7 @@ export const AssessmentForm = () => {
 
         <View style={{flexDirection: 'column'}}>
         <Text style={styles.text}>Date of Occurence</Text>
-        <TouchableOpacity style={styles.input} onPress={() => setShowPicker(true)}>
+        <TouchableOpacity style={styles.input} onPress={() =>  showDatePicker('dateofoccurence')}>
             <Text>
             {dateofoccurence.toDateString()}
             </Text> 
@@ -190,7 +219,7 @@ export const AssessmentForm = () => {
 
         <View style={{flexDirection: 'column'}}>
         <Text style={styles.text}>Date Reported</Text>
-        <TouchableOpacity style={styles.input} onPress={() => setShowPicker(true)}>
+        <TouchableOpacity style={styles.input} onPress={() =>  showDatePicker('datereported')}>
             <Text>
             {datereported.toDateString()}
             </Text> 
@@ -208,9 +237,9 @@ export const AssessmentForm = () => {
         
         <View style={{flexDirection: 'column'}}>
         <Text style={styles.text}>Date of Assessment</Text>
-        <TouchableOpacity style={styles.input} onPress={() => setShowPicker(true)}>
+        <TouchableOpacity style={styles.input} onPress={() =>  showDatePicker('dateofassessment')}>
             <Text>
-            {datereported.toDateString()}
+            {dateofassessment.toDateString()}
             </Text> 
         </TouchableOpacity> 
          {showPicker && <DateTimePicker
@@ -338,6 +367,16 @@ export const AssessmentForm = () => {
           value={values.numberofhousespartiallydamaged}
           placeholder='Houses Damaged'
         />
+        </View>
+            <View style={{marginTop: 18}}>
+            {!location &&
+              <Button title="Get Location" onPress={getLocation} />}
+            {location && (
+              <View>
+                <Text>Latitude: {location.latitude}</Text>
+                <Text>Longitude: {location.longitude}</Text>
+              </View>
+            )}
         </View>
         </View>
 

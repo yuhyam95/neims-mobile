@@ -23,7 +23,7 @@ const AppButton = ({ label, onPress, backgroundColor, color }) => {
             onPress={onPress}
         >
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{ color: color, fontWeight: "bold", fontSize: 20 }}>{label}</Text>
+            <Text style={{ color: color, fontWeight: "bold", fontSize: 15 }}>{label}</Text>
             </View>
         </TouchableOpacity>
         </View>

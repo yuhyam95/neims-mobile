@@ -5,7 +5,6 @@ import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpa
 import { Formik } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
-import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
 import apiClient from '../service/apiClient';
 
@@ -119,17 +118,6 @@ const fetchProducts = async () => {
           placeholder='SRV number'
         />
         </View>
-        
-      {/* <View style={{flexDirection: 'column'}}>
-      <Text style={{marginLeft: 10}}> Name </Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={handleChange('name')}
-          onBlur={handleBlur('name')}
-          value={values.name}
-          placeholder='Name'
-        />
-        </View> */}
 
           <View style={{flexDirection: 'column'}}>
           <Picker
@@ -192,7 +180,7 @@ const styles = StyleSheet.create({
       margin: 7,
       borderWidth: 1,
       padding: 10,
-      width: 300,
+      width: 200,
       borderColor: '#E2E1E1',
       borderRadius: 10
     },

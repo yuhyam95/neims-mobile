@@ -3,20 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Alert, Pressable, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CategoryGrid from '../components/CategoryGrid';
 import AddProduct from '../screens/AddProduct'
 import MyTable from '../components/MyTable';
 import IssueProduct from './IssueProduct';
 import apiClient from '../service/apiClient';
+import BeneficiaryCard from '../components/BeneficiaryCard';
 
-const Dashboard = () => {
+const AssessmentDashboard = () => {
   
   const route = useRoute();
   const decodedToken = route.params?.decodedToken;
   const userId =decodedToken._id
   const [user, setUser] = useState(null)
   const [station, setStation] = useState([])
-  const [products, setProducts] = useState([])
+  const [beneficiaries, setBeneficiaries] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
   
@@ -37,12 +37,12 @@ const fetchData = async () => {
               });
               setStation(stationResponse.data);
 
-              const productsResponse = await apiClient.get(`/product`, {
-                  params: {
-                      stationName: userResponse.data.station.name,
-                  }
+              const beneficiariesResponse = await apiClient.get(`/beneficiary`, {
+                //   params: {
+                //       stationName: userResponse.data.station.name,
+                //   }
               });
-              setProducts(productsResponse.data);
+              setBeneficiaries(beneficiariesResponse.data);
           }
       } catch (error) {
           console.error(error);
@@ -62,21 +62,27 @@ const fetchData = async () => {
       <TouchableOpacity style={{backgroundColor: "#008157D4", height: 40, alignSelf: 'center', 
                         width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white'}}>
-          Add Product
+          Add Beneficiary
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
                         width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white'}}>
-          Issue Product
+          Add Report
         </Text>
       </TouchableOpacity>
       </View>
       </View>
-      
-        <CategoryGrid data={station[0]?.category}/>
-        <MyTable products={products}/>
-          <Modal
+      <View flexDirection='row' alignItems='center' justifyContent='center'>
+        <BeneficiaryCard name="Men" total={beneficiaries?.men} color="#0090FF"/>
+        <BeneficiaryCard name="Women" total={beneficiaries?.women} color="#FE3169"/>
+      </View>
+      <View flexDirection='row' alignItems='center' justifyContent='center'>
+        <BeneficiaryCard name="Children" total={beneficiaries?.children} color="#A8CF45"/>
+        <BeneficiaryCard name="Households" total={beneficiaries?.households} color="#9F48A6"/>
+        </View>
+        {/* <MyTable products={products}/> */}
+          {/* <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
@@ -114,7 +120,7 @@ const fetchData = async () => {
               <IssueProduct userId={userId} products={products} />
             </View>
           </View>
-        </Modal>     
+        </Modal>      */}
     </View>
     </SafeAreaView>
   );
@@ -162,4 +168,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Dashboard;
+export default AssessmentDashboard;

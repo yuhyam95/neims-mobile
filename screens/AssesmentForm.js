@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity, Button } from 'react-native';
+import { SafeAreaView, TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
 import { Formik } from 'formik';``
 import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
@@ -21,7 +21,7 @@ export const AssessmentForm = () => {
 
   const handleDateChange = (event, selectedDate) => {
     setShowPicker(false);
-
+    //console.log(selectedDate)
     if (selectedDate) {
       if (dateField === 'dateofoccurence') {
         setDateOfOccurence(selectedDate);
@@ -45,41 +45,45 @@ export const AssessmentForm = () => {
   };
 
   const handleSubmit = async (values) => { 
-     const affectedpersons = convertToInt(values.numberofaffectedpersons);
-     const affectedhouseholds = convertToInt(values.numberofhouseholdaffected);
-     const men = convertToInt(values.numberofmen);
-     const women = convertToInt(values.numberofwomen);
-     const children = convertToInt(values.numberofchildren);
-     const injured = convertToInt(values.numberofinjured);
-     const death = convertToInt(values.numberofdeath);
-     const completelydamaged = convertToInt(values.numberofhousescompletelydamaged);
-     const partiallydamaged = convertToInt(values.numberofhousespartiallydamaged);
+    //  const affectedpersons = convertToInt(values.numberofaffectedpersons);
+    //  const affectedhouseholds = convertToInt(values.numberofhouseholdaffected);
+    //  const men = convertToInt(values.numberofmen);
+    //  const women = convertToInt(values.numberofwomen);
+    //  const children = convertToInt(values.numberofchildren);
+    //  const injured = convertToInt(values.numberofinjured);
+    //  const death = convertToInt(values.numberofdeath);
+    //  const completelydamaged = convertToInt(values.numberofhousescompletelydamaged);
+    //  const partiallydamaged = convertToInt(values.numberofhousespartiallydamaged);
        
-    if (!isNaN(affectedpersons)) {
-      try {
-        const response = await apiClient.post('/report', { ...values, 
-            numberofaffectedpersons: affectedpersons,
-            numberofhouseholdaffected: affectedhouseholds,
-            numberofmen: men,
-            numberofwomen: women,
-            numberofchildren: children,
-            numberofinjured: injured,
-            numberofdeath: death,
-            numberofhousescompletelydamaged: completelydamaged,
-            numberofhousespartiallydamaged: partiallydamaged
-            });
-        console.log('Form submitted successfully:', response.data);
-        setShowForm(false)
-        setShowDone(true)
+    // if (!isNaN(affectedpersons)) {
+    //   try {
+    //     const response = await apiClient.post('/report', { ...values, 
+    //         numberofaffectedpersons: affectedpersons,
+    //         numberofhouseholdaffected: affectedhouseholds,
+    //         numberofmen: men,
+    //         numberofwomen: women,
+    //         numberofchildren: children,
+    //         numberofinjured: injured,
+    //         numberofdeath: death,
+    //         numberofhousescompletelydamaged: completelydamaged,
+    //         numberofhousespartiallydamaged: partiallydamaged
+    //         });
+    //     console.log('Form submitted successfully:', response.data);
+    //     setShowForm(false)
+    //     setShowDone(true)
         
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        setShowForm(false)
-        setShowError(true)
-      }
-    } else {
-      console.error('Invalid quantity value:', values.affectedpersons);
-    }
+    //   } catch (error) {
+    //     console.error('Error submitting form:', error);
+    //     setShowForm(false)
+    //     setShowError(true)
+    //   }
+    // } else {
+    //   console.error('Invalid quantity value:', values.affectedpersons);
+    // }
+
+    console.log(dateofoccurence)
+    console.log(datereported)
+    console.log(dateofassessment)
     
   };
 
@@ -142,7 +146,7 @@ export const AssessmentForm = () => {
     }
     {showForm &&
     <>
-      <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
+      <View style={{alignItems:'center', justifyContent: 'center', marginTop: 30}}>
       <Text style={{fontSize: 20}}>
         Assessment Form
       </Text>
@@ -150,11 +154,11 @@ export const AssessmentForm = () => {
   <Formik
     initialValues={{ state: '', lga: '', community: '', natureofdisaster: '', dateofoccurence: dateofoccurence, datereported: datereported, dateofassessment: dateofassessment,
         numberofaffectedpersons: 0, numberofhouseholdaffected: 0, numberofmen: 0, numberofwomen: 0, numberofchildren: 0, numberofhousescompletelydamaged: 0,
-        numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: []}}
-    onSubmit={handleSubmit}
+        numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: [], longitude: '', latitude: ''}}
+        onSubmit={handleSubmit}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
-      <View style={{ marginTop: 50,}}>
+      <View style={{ marginTop: 40}}>
   
       <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center', marginBottom: 15}}>
       <View style={{flexDirection: 'column'}}>
@@ -210,7 +214,7 @@ export const AssessmentForm = () => {
             </Text> 
         </TouchableOpacity> 
          {showPicker && <DateTimePicker
-          testID="dateTimePicker"
+          testID="OccurencePicker"
           value={dateofoccurence}
           mode="date"
           onChange={handleDateChange}
@@ -225,7 +229,7 @@ export const AssessmentForm = () => {
             </Text> 
         </TouchableOpacity> 
          {showPicker && <DateTimePicker
-          testID="dateTimePicker"
+          testID="ReportedPicker"
           value={datereported}
           mode="date"
           onChange={handleDateChange}
@@ -243,7 +247,7 @@ export const AssessmentForm = () => {
             </Text> 
         </TouchableOpacity> 
          {showPicker && <DateTimePicker
-          testID="dateTimePicker"
+          testID="AssessmentPicker"
           value={dateofassessment}
           mode="date"
           onChange={handleDateChange}

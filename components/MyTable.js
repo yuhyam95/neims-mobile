@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import moment from 'moment'; // Make sure to install the moment library
-
 import TableRows from './TableRows'; // Assuming you have the TableRows component
 
 
@@ -19,7 +18,6 @@ function MyTable({ products } ) {
           <Text style={styles.columnHeader}>Item</Text>
           <Text style={styles.columnHeader}>Quantity</Text>
           <Text style={styles.columnHeader}>Reason</Text>
-          {/* {showStation && <Text style={styles.columnHeader}>Station</Text>} */}
           <Text style={styles.columnHeader}>Category</Text>
           <Text style={styles.columnHeader}>Date</Text>
         </View>
@@ -36,22 +34,6 @@ function MyTable({ products } ) {
             />
           ))}
         </View>
-        {/* <View style={styles.tableFooter}>
-          <View style={styles.pagination}>
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.paginationButton,
-                  { backgroundColor: index + 1 === currentPage ? 'blue' : 'gray' },
-                ]}
-                onPress={() => setCurrentPage(index + 1)}
-              >
-                <Text style={styles.paginationText}>{index + 1}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View> */}
       </View>
     </ScrollView>
   );

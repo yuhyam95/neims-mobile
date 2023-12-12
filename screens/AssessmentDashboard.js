@@ -8,6 +8,7 @@ import MyTable from '../components/MyTable';
 import IssueProduct from './IssueProduct';
 import apiClient from '../service/apiClient';
 import BeneficiaryCard from '../components/BeneficiaryCard';
+import ReportsTable from '../components/ReportsTable';
 
 const AssessmentDashboard = () => {
   
@@ -15,7 +16,7 @@ const AssessmentDashboard = () => {
   const decodedToken = route.params?.decodedToken;
   const userId =decodedToken._id
   const [user, setUser] = useState(null)
-  const [station, setStation] = useState([])
+  const [reports, setReports] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
@@ -30,12 +31,13 @@ const fetchData = async () => {
           setUser(userResponse.data);
 
           if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
-              const stationResponse = await apiClient.get(`/station`, {
-                  params: {
-                      name: userResponse.data.station.name,
-                  }
+              const reportsResponse = await apiClient.get(`/report`, {
+                //   params: {
+                //       name: userResponse.data.station.name,
+                //   }
               });
-              setStation(stationResponse.data);
+              console.log(reportsResponse.data)
+              setReports(reportsResponse.data);
 
               const beneficiariesResponse = await apiClient.get(`/beneficiary`, {
                 //   params: {
@@ -81,7 +83,7 @@ const fetchData = async () => {
         <BeneficiaryCard name="Children" total={beneficiaries?.children} color="#A8CF45"/>
         <BeneficiaryCard name="Households" total={beneficiaries?.households} color="#9F48A6"/>
         </View>
-        {/* <MyTable products={products}/> */}
+        <ReportsTable reports={reports}/>
           {/* <Modal
           animationType="slide"
           transparent={true}

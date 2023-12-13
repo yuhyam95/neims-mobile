@@ -5,7 +5,8 @@ import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import apiClient from '../service/apiClient';
- import * as Location from 'expo-location';
+import * as Location from 'expo-location';
+import CustomDateField from '../components/DateField';
 
 export const AssessmentForm = () => {
 
@@ -16,7 +17,6 @@ export const AssessmentForm = () => {
   const [dateField, setDateField] = useState(null);
   const [dateofoccurence, setDateOfOccurence] = useState(new Date());
   const [datereported, setDateReported] = useState(new Date());
-  const [dateofassessment, setDateOfAssessment] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
 
   const handleDateChange = (event, selectedDate) => {
@@ -82,8 +82,7 @@ export const AssessmentForm = () => {
     // }
 
     console.log(dateofoccurence)
-    console.log(datereported)
-    console.log(dateofassessment)
+    //console.log(datereported)
     
   };
 
@@ -152,7 +151,7 @@ export const AssessmentForm = () => {
       </Text>
     </View>
   <Formik
-    initialValues={{ state: '', lga: '', community: '', natureofdisaster: '', dateofoccurence: dateofoccurence, datereported: datereported, dateofassessment: dateofassessment,
+    initialValues={{ state: '', lga: '', community: '', natureofdisaster: '', dateofoccurence: dateofoccurence, datereported: datereported,
         numberofaffectedpersons: 0, numberofhouseholdaffected: 0, numberofmen: 0, numberofwomen: 0, numberofchildren: 0, numberofhousescompletelydamaged: 0,
         numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: [], longitude: '', latitude: ''}}
         onSubmit={handleSubmit}
@@ -208,9 +207,9 @@ export const AssessmentForm = () => {
 
         <View style={{flexDirection: 'column'}}>
         <Text style={styles.text}>Date of Occurence</Text>
-        <TouchableOpacity style={styles.input} onPress={() =>  showDatePicker('dateofoccurence')}>
+        {/* <TouchableOpacity style={styles.input} onPress={() =>  showDatePicker('dateofoccurence')}>
             <Text>
-            {dateofoccurence.toDateString()}
+            Date of Occurence
             </Text> 
         </TouchableOpacity> 
          {showPicker && <DateTimePicker
@@ -218,7 +217,8 @@ export const AssessmentForm = () => {
           value={dateofoccurence}
           mode="date"
           onChange={handleDateChange}
-        />}
+        />} */}
+        <CustomDateField />
         </View>
 
         <View style={{flexDirection: 'column'}}>

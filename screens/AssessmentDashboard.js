@@ -34,7 +34,6 @@ const fetchData = async () => {
                 //       name: userResponse.data.station.name,
                 //   }
               });
-              console.log(reportsResponse.data)
               setReports(reportsResponse.data);
 
               const beneficiariesResponse = await apiClient.get(`/beneficiary`, {

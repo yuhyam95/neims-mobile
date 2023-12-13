@@ -71,7 +71,7 @@ const Login = () => {
             />    
           </View>
           </View>
-        <AppButton label="Login" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" />
+        <AppButton label="Login" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" width={120}/>
       </View>
     
     )}

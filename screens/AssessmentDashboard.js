@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Alert, Pressable, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AddProduct from '../screens/AddProduct'
-import MyTable from '../components/MyTable';
-import IssueProduct from './IssueProduct';
 import apiClient from '../service/apiClient';
 import BeneficiaryCard from '../components/BeneficiaryCard';
 import ReportsTable from '../components/ReportsTable';
+import AssessmentForm from './AssesmentForm';
 
 const AssessmentDashboard = () => {
   
@@ -19,7 +17,7 @@ const AssessmentDashboard = () => {
   const [reports, setReports] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
-  const [issueModalVisible, setIssueModalVisible] = useState(false);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
   
   useEffect(() => {
     fetchData();
@@ -68,7 +66,7 @@ const fetchData = async () => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
-                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
+                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setReportModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white'}}>
           Add Report
         </Text>
@@ -84,7 +82,7 @@ const fetchData = async () => {
         <BeneficiaryCard name="Households" total={beneficiaries?.households} color="#9F48A6"/>
         </View>
         <ReportsTable reports={reports}/>
-          {/* <Modal
+          <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
@@ -99,7 +97,7 @@ const fetchData = async () => {
                 onPress={() => {setModalVisible(!modalVisible); fetchData()}}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <AddProduct stationId={station[0]?._id} userId={userId} categories={station[0]?.category} />
+              <AssessmentForm />
             </View>
           </View>
         </Modal>
@@ -107,22 +105,22 @@ const fetchData = async () => {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={issueModalVisible}
+          visible={reportModalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
-            setIssueModalVisible(!modalVisible);
+            setReportModalVisible(!modalVisible);
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => {setIssueModalVisible(!issueModalVisible); fetchData()}}>
+                onPress={() => {setReportModalVisible(!reportModalVisible); fetchData()}}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <IssueProduct userId={userId} products={products} />
+              <AssessmentForm />
             </View>
           </View>
-        </Modal>      */}
+        </Modal>     
     </View>
     </SafeAreaView>
   );

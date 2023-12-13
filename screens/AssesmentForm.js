@@ -237,48 +237,6 @@ export const AssessmentForm = () => {
         </View>
         </View>
 
-        <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center', marginBottom: 15}}>
-        
-        <View style={{flexDirection: 'column'}}>
-        <Text style={styles.text}>Date of Assessment</Text>
-        <TouchableOpacity style={styles.input} onPress={() =>  showDatePicker('dateofassessment')}>
-            <Text>
-            {dateofassessment.toDateString()}
-            </Text> 
-        </TouchableOpacity> 
-         {showPicker && <DateTimePicker
-          testID="AssessmentPicker"
-          value={dateofassessment}
-          mode="date"
-          onChange={handleDateChange}
-        />}
-        </View>
-        
-        
-        <View style={{flexDirection: 'column'}}>
-        <Text style={styles.text}>No. of Affected Persons </Text>  
-        <TextInput
-          style={styles.input}
-          inputMode='numeric'
-          onChangeText={handleChange('numberofaffectedpersons')}
-          onBlur={handleBlur('numberofaffectedpersons')}
-          value={values.numberofaffectedpersons}
-          placeholder='No. of Affected Persons'
-        />
-        </View>
-
-        <View style={{flexDirection: 'column'}}>
-        <Text style={styles.text}>No. of Households Affected</Text>  
-        <TextInput
-          style={styles.input}
-          inputMode='numeric'
-          onChangeText={handleChange('numberofhouseholdaffected')}
-          onBlur={handleBlur('numberofhouseholdaffected')}
-          value={values.numberofhouseholdaffected}
-          placeholder='No. of Households Affected'
-        />
-        </View>
-        </View>
 
         <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center', marginBottom: 15}}>
         
@@ -344,23 +302,34 @@ export const AssessmentForm = () => {
           placeholder='No. of Death'
         />
         </View>
-
+        
         <View style={{flexDirection: 'column'}}>
-        <Text style={styles.text}>Houses Completely Damaged</Text>  
+        <Text style={styles.text}>No. of Affected Persons </Text>  
         <TextInput
           style={styles.input}
           inputMode='numeric'
-          onChangeText={handleChange('numberofhousescompletelydamaged')}
-          onBlur={handleBlur('numberofhousescompletelydamaged')}
-          value={values.numberofhousescompletelydamaged}
-          placeholder='Houses Damaged'
+          onChangeText={handleChange('numberofaffectedpersons')}
+          onBlur={handleBlur('numberofaffectedpersons')}
+          value={values.numberofaffectedpersons}
+          placeholder='No. of Affected Persons'
         />
         </View>
 
         </View>
-
         <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center', marginBottom: 15}}>
         
+        <View style={{flexDirection: 'column'}}>
+        <Text style={styles.text}>No. of Households Affected</Text>  
+        <TextInput
+          style={styles.input}
+          inputMode='numeric'
+          onChangeText={handleChange('numberofhouseholdaffected')}
+          onBlur={handleBlur('numberofhouseholdaffected')}
+          value={values.numberofhouseholdaffected}
+          placeholder='No. of Households Affected'
+        />
+        </View>
+
         <View style={{flexDirection: 'column'}}>
         <Text style={styles.text}>Houses Partially Damaged</Text>  
         <TextInput
@@ -372,7 +341,22 @@ export const AssessmentForm = () => {
           placeholder='Houses Damaged'
         />
         </View>
-            <View style={{marginTop: 18}}>
+        
+        <View style={{flexDirection: 'column'}}>
+        <Text style={styles.text}>Houses Completely Damaged</Text>  
+        <TextInput
+          style={styles.input}
+          inputMode='numeric'
+          onChangeText={handleChange('numberofhousescompletelydamaged')}
+          onBlur={handleBlur('numberofhousescompletelydamaged')}
+          value={values.numberofhousescompletelydamaged}
+          placeholder='Houses Damaged'
+        />
+        </View>
+        
+        </View>
+        <View style={{alignItems: 'center', justifyContent: 'center',}}>
+        <View style={{marginTop: 18}}>
             {!location &&
               <Button title="Get Location" onPress={getLocation} />}
             {location && (
@@ -382,9 +366,8 @@ export const AssessmentForm = () => {
               </View>
             )}
         </View>
+        <AppButton label="Submit Form" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" width={120}/>
         </View>
-
-        <AppButton label="Submit Form" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" />
       </View>
     
     )}

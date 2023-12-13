@@ -7,12 +7,12 @@ import {
 import { scale } from 'react-native-size-matters';
 
 
-const AppButton = ({ label, onPress, backgroundColor, color }) => {
+const AppButton = ({ label, onPress, backgroundColor, color, width }) => {
     return (
         <View style={{alignItems: 'center'}}>
         <TouchableOpacity
             style={{
-                width: "20%",
+                width: width,
                 height: scale(20),
                 alignItems: 'center',
                 justifyContent: 'center',

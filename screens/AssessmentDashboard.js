@@ -7,6 +7,7 @@ import apiClient from '../service/apiClient';
 import BeneficiaryCard from '../components/BeneficiaryCard';
 import ReportsTable from '../components/ReportsTable';
 import AssessmentForm from './AssesmentForm';
+import Addbeneficiary from './AddBeneficiary';
 
 const AssessmentDashboard = () => {
   
@@ -96,7 +97,7 @@ const fetchData = async () => {
                 onPress={() => {setModalVisible(!modalVisible); fetchData()}}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <AssessmentForm />
+              <Addbeneficiary />
             </View>
           </View>
         </Modal>

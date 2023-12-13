@@ -5,6 +5,7 @@ import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
 import apiClient from '../service/apiClient';
 import * as Location from 'expo-location';
+import { date } from 'zod';
 
 export const AssessmentForm = () => {
 
@@ -41,44 +42,49 @@ export const AssessmentForm = () => {
   };
 
   const handleSubmit = async (values) => { 
-    //  const affectedpersons = convertToInt(values.numberofaffectedpersons);
-    //  const affectedhouseholds = convertToInt(values.numberofhouseholdaffected);
-    //  const men = convertToInt(values.numberofmen);
-    //  const women = convertToInt(values.numberofwomen);
-    //  const children = convertToInt(values.numberofchildren);
-    //  const injured = convertToInt(values.numberofinjured);
-    //  const death = convertToInt(values.numberofdeath);
-    //  const completelydamaged = convertToInt(values.numberofhousescompletelydamaged);
-    //  const partiallydamaged = convertToInt(values.numberofhousespartiallydamaged);
+     const affectedpersons = convertToInt(values.numberofaffectedpersons);
+     const affectedhouseholds = convertToInt(values.numberofhouseholdaffected);
+     const men = convertToInt(values.numberofmen);
+     const women = convertToInt(values.numberofwomen);
+     const children = convertToInt(values.numberofchildren);
+     const injured = convertToInt(values.numberofinjured);
+     const death = convertToInt(values.numberofdeath);
+     const completelydamaged = convertToInt(values.numberofhousescompletelydamaged);
+     const partiallydamaged = convertToInt(values.numberofhousespartiallydamaged);
        
-    // if (!isNaN(affectedpersons)) {
-    //   try {
-    //     const response = await apiClient.post('/report', { ...values, 
-    //         numberofaffectedpersons: affectedpersons,
-    //         numberofhouseholdaffected: affectedhouseholds,
-    //         numberofmen: men,
-    //         numberofwomen: women,
-    //         numberofchildren: children,
-    //         numberofinjured: injured,
-    //         numberofdeath: death,
-    //         numberofhousescompletelydamaged: completelydamaged,
-    //         numberofhousespartiallydamaged: partiallydamaged
-    //         });
-    //     console.log('Form submitted successfully:', response.data);
-    //     setShowForm(false)
-    //     setShowDone(true)
-        
-    //   } catch (error) {
-    //     console.error('Error submitting form:', error);
-    //     setShowForm(false)
-    //     setShowError(true)
-    //   }
-    // } else {
-    //   console.error('Invalid quantity value:', values.affectedpersons);
-    // }
+    if (!isNaN(affectedpersons)) {
+      try {
+        const response = await apiClient.post('/report', { ...values, 
+            
+          numberofaffectedpersons: affectedpersons,
+            numberofhouseholdaffected: affectedhouseholds,
+            numberofmen: men,
+            numberofwomen: women,
+            numberofchildren: children,
+            numberofinjured: injured,
+            numberofdeath: death,
+            numberofhousescompletelydamaged: completelydamaged,
+            numberofhousespartiallydamaged: partiallydamaged,
+            dateofoccurence: dateofoccurence,
+            datereported: datereported,
+            longitude: location?.longitude,
+            latitude: location?.latitude
 
-    console.log(dateofoccurence)
-    console.log(datereported)
+            });
+        console.log('Form submitted successfully:', response.data);
+        setShowForm(false)
+        setShowDone(true)
+        
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setShowForm(false)
+        setShowError(true)
+      }
+    } else {
+      console.error('Invalid quantity value:', values.affectedpersons);
+    }
+
+
     
   };
 

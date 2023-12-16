@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
   const navigation = useNavigation();  
+  
   const [error, setError] = useState('');
   const {login} = useAuth()
   const handleLogin = async (values) => {
@@ -22,7 +23,7 @@ const Login = () => {
       const token = response.data.token;
       const decodedToken = JWT.decode(token, key);
       login(decodedToken._id)
-      navigation.navigate('Dashboard', { decodedToken });
+      navigation.navigate('Dashboard');
 
     } catch (error) {
       console.error('Login failed:', error.response ? error.response.data : error.message);

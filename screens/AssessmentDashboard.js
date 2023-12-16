@@ -8,6 +8,7 @@ import ReportsTable from '../components/ReportsTable';
 import AssessmentForm from './AssesmentForm';
 import Addbeneficiary from './AddBeneficiary';
 import { useAuth } from '../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
 const AssessmentDashboard = () => {
   
@@ -17,7 +18,8 @@ const AssessmentDashboard = () => {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const {user, logout} = useAuth()
   const station = user?.station.name;
-  
+  const navigation = useNavigation();
+
   useEffect(() => {
     fetchData();
 }, [station]); 
@@ -43,38 +45,41 @@ const fetchData = async () => {
     };
 
     const handleLogout = async () => {
-      await logout;
+        logout();
+        navigation.navigate('Login');
     }
 
   return (
     <SafeAreaView>
     <View style={{marginTop: 20, backgroundColor:'#FBFAFA'}}>
       <View style={{marginLeft: 20, marginTop: 20, marginBottom: 10, 
-                    flexDirection:'row', justifyContent: 'space-between', borderBottomWidth: 1, bordeColor: 'gray',   }}>
-      <View>
-      <Text style={{fontSize: 20, marginBottom: 5}}>Hello {user?.firstname} {user?.surname}</Text>
-      <Text style={{fontSize: 20, marginBottom: 5}}> Station: {station}</Text>
+                    flexDirection:'row', borderBottomWidth: 1, bordeColor: 'gray',}}>
+      <View style={{marginRight: 50}}>
+      <Text style={{fontSize: 15, marginBottom: 5}}>Hello {user?.firstname} {user?.surname}</Text>
+      <Text style={{fontSize: 15, marginBottom: 5}}> Station: {station}</Text>
       </View>
-      <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
-      <TouchableOpacity style={{backgroundColor: "#008157D4", height: 40, alignSelf: 'center', 
-                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
+
+      <View style={{flexDirection: 'row', justifyContent:'center', alignItems: 'center'}}>
+      <TouchableOpacity style={{backgroundColor: "#008157D4", height: 35, marginRight: 10, 
+                        width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
           Add Beneficiary
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: "#0090FF", height: 40, alignSelf: 'center', 
-                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setReportModalVisible(true)}>
+      <TouchableOpacity style={{backgroundColor: "#0090FF", height: 35, marginRight: 60,
+                        width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setReportModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Add Report
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
-                        width: '20%', justifyContent:'center', borderRadius: 10}} onPress={handleLogout}>
+      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 35, 
+                        width: 75, justifyContent:'center', borderRadius: 10}} onPress={handleLogout}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Logout
         </Text>
       </TouchableOpacity>
       </View>
+
       </View>
       <View flexDirection='row' alignItems='center' justifyContent='center'>
         <BeneficiaryCard name="Men" total={beneficiaries?.men} color="#0090FF"/>

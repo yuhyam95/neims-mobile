@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Alert, Pressable, StyleSheet } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CategoryGrid from '../components/CategoryGrid';
 import AddProduct from '../screens/AddProduct'
@@ -11,7 +11,8 @@ import apiClient from '../service/apiClient';
 import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
-  
+
+  const navigation = useNavigation();
   const [station, setStation] = useState([])
   const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const stationName = user?.station.name;
   const userId = user?._id
   
+
   useEffect(() => {
     fetchData();
 }, [user]); 
@@ -46,31 +48,35 @@ const fetchData = async () => {
           console.error(error);
       }
     };
+    const handleLogout = () => {
+      logout();
+      navigation.navigate('Login');
+    }
 
   return (
     <SafeAreaView>
     <View style={{marginTop: 20, backgroundColor:'#FBFAFA'}}>
       <View style={{marginLeft: 20, marginTop: 20, marginBottom: 10, 
-                    flexDirection:'row', justifyContent: 'space-between', borderBottomWidth: 1, bordeColor: 'gray',   }}>
-      <View>
-      <Text style={{fontSize: 20, marginBottom: 5}}>Hello {user?.firstname} {user?.surname}</Text>
-      <Text style={{fontSize: 20, marginBottom: 5}}> Station: {user?.station.name}</Text>
+                    flexDirection:'row', borderBottomWidth: 1, bordeColor: 'gray',   }}>
+      <View style={{marginRight: 50}}>
+      <Text style={{fontSize: 15, marginBottom: 5}}>Hello {user?.firstname} {user?.surname}</Text>
+      <Text style={{fontSize: 15, marginBottom: 5}}> Station: {user?.station.name}</Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
-      <TouchableOpacity style={{backgroundColor: "#008157D4", height: 40, alignSelf: 'center', 
-                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
+      <TouchableOpacity style={{backgroundColor: "#008157D4", height: 35, alignSelf: 'center', marginRight: 10,
+                        width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
           Add Product
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: "#0090FF", height: 40, alignSelf: 'center', 
-                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
+      <TouchableOpacity style={{backgroundColor: "#0090FF", height: 35, alignSelf: 'center', marginRight: 100,
+                        width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
           Issue Product
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
-                        width: '20%', justifyContent:'center', borderRadius: 10}}>
+      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 35, alignSelf: 'center', 
+                        width: 75, justifyContent:'center', borderRadius: 10}} onPress={handleLogout}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Logout
         </Text>

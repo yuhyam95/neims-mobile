@@ -1,53 +1,50 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Alert, Pressable, StyleSheet } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import apiClient from '../service/apiClient';
 import BeneficiaryCard from '../components/BeneficiaryCard';
 import ReportsTable from '../components/ReportsTable';
 import AssessmentForm from './AssesmentForm';
 import Addbeneficiary from './AddBeneficiary';
+import { useAuth } from '../context/AuthContext';
 
 const AssessmentDashboard = () => {
   
-  const route = useRoute();
-  const decodedToken = route.params?.decodedToken;
-  const userId =decodedToken._id
-  const [user, setUser] = useState(null)
   const [reports, setReports] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [reportModalVisible, setReportModalVisible] = useState(false);
+  const {user, logout} = useAuth()
+  const station = user?.station.name;
   
   useEffect(() => {
     fetchData();
-}, [userId]); 
+}, [station]); 
 
 const fetchData = async () => {
       try {
-          const userResponse = await apiClient.get(`/user/${userId}`);
-          setUser(userResponse.data);
-
-          if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
               const reportsResponse = await apiClient.get(`/report`, {
-                //   params: {
-                //       name: userResponse.data.station.name,
-                //   }
+                  params: {
+                      stationName: station,
+                  }
               });
               setReports(reportsResponse.data);
 
               const beneficiariesResponse = await apiClient.get(`/beneficiary`, {
-                //   params: {
-                //       stationName: userResponse.data.station.name,
-                //   }
+                  params: {
+                      stationName: station,
+                  }
               });
               setBeneficiaries(beneficiariesResponse.data);
-          }
       } catch (error) {
           console.error(error);
       }
     };
+
+    const handleLogout = async () => {
+      await logout;
+    }
 
   return (
     <SafeAreaView>
@@ -56,19 +53,25 @@ const fetchData = async () => {
                     flexDirection:'row', justifyContent: 'space-between', borderBottomWidth: 1, bordeColor: 'gray',   }}>
       <View>
       <Text style={{fontSize: 20, marginBottom: 5}}>Hello {user?.firstname} {user?.surname}</Text>
-      <Text style={{fontSize: 20, marginBottom: 5}}> Station: {user?.station.name}</Text>
+      <Text style={{fontSize: 20, marginBottom: 5}}> Station: {station}</Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
       <TouchableOpacity style={{backgroundColor: "#008157D4", height: 40, alignSelf: 'center', 
-                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white'}}>
+                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Add Beneficiary
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
-                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setReportModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white'}}>
+      <TouchableOpacity style={{backgroundColor: "#0090FF", height: 40, alignSelf: 'center', 
+                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setReportModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Add Report
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
+                        width: '20%', justifyContent:'center', borderRadius: 10}} onPress={handleLogout}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
+          Logout
         </Text>
       </TouchableOpacity>
       </View>
@@ -79,7 +82,7 @@ const fetchData = async () => {
       </View>
       <View flexDirection='row' alignItems='center' justifyContent='center'>
         <BeneficiaryCard name="Children" total={beneficiaries?.children} color="#A8CF45"/>
-        <BeneficiaryCard name="Households" total={beneficiaries?.households} color="#9F48A6"/>
+        <BeneficiaryCard name="Total Beneficiaries" total={beneficiaries?.households} color="#9F48A6"/>
         </View>
         <ReportsTable reports={reports}/>
           <Modal

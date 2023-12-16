@@ -5,7 +5,7 @@ import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
 import apiClient from '../service/apiClient';
 import * as Location from 'expo-location';
-import { date } from 'zod';
+import { useAuth } from '../context/AuthContext';
 
 export const AssessmentForm = () => {
 
@@ -15,6 +15,8 @@ export const AssessmentForm = () => {
   const [showForm, setShowForm] = useState(true)
   const [dateofoccurence, setDateOfOccurence] = useState('');
   const [datereported, setDateReported] = useState('');
+  const {user} = useAuth();
+  const stationId = user.station.id;
 
   const handleDateOfOccurenceChange = (text) => {
     if ((text.length === 2 && dateofoccurence.length < 2) || (text.length === 5 && dateofoccurence.length < 5)) {
@@ -155,7 +157,8 @@ export const AssessmentForm = () => {
   <Formik
     initialValues={{ state: '', lga: '', community: '', natureofdisaster: '', dateofoccurence: '', datereported: '',
         numberofaffectedpersons: 0, numberofhouseholdaffected: 0, numberofmen: 0, numberofwomen: 0, numberofchildren: 0, numberofhousescompletelydamaged: 0,
-        numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: [], longitude: '', latitude: ''}}
+        numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: [], longitude: '', latitude: '',
+        station: stationId}}
         onSubmit={handleSubmit}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (

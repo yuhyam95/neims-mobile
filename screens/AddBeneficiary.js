@@ -6,13 +6,15 @@ import { Picker } from '@react-native-picker/picker';
 import AppButton from '../components/AppButton';
 import { AntDesign } from '@expo/vector-icons';
 import apiClient from '../service/apiClient';
+import { useAuth } from '../context/AuthContext';
 
-export const Addbeneficiary = ({stationId}) => {
+export const Addbeneficiary = () => {
   
   const [showDone, setShowDone] = useState(false)
   const [showError, setShowError] = useState(false)
   const [showForm, setShowForm] = useState(true)
-
+  const {user} = useAuth();
+  const stationId = user.station.id;
 
   const handleSubmit = async (values) => { 
     const intValue = parseInt(values.age, 10);
@@ -80,7 +82,7 @@ export const Addbeneficiary = ({stationId}) => {
     <>
       <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
       <Text style={{fontSize: 20}}>
-        Add beneficiary
+        Add Beneficiary
       </Text>
     </View>
   <Formik

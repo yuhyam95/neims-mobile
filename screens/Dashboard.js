@@ -8,42 +8,40 @@ import AddProduct from '../screens/AddProduct'
 import MyTable from '../components/MyTable';
 import IssueProduct from './IssueProduct';
 import apiClient from '../service/apiClient';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
   
-  const route = useRoute();
-  const decodedToken = route.params?.decodedToken;
-  const userId =decodedToken._id
-  const [user, setUser] = useState(null)
   const [station, setStation] = useState([])
   const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
   
+  const {user, logout} = useAuth()
+  const stationName = user?.station.name;
+  const userId = user?._id
+  
   useEffect(() => {
     fetchData();
-}, [userId]); 
+}, [user]); 
 
 const fetchData = async () => {
       try {
-          const userResponse = await apiClient.get(`/user/${userId}`);
-          setUser(userResponse.data);
-
-          if (userResponse.data && userResponse.data.station && userResponse.data.station.name) {
+     
               const stationResponse = await apiClient.get(`/station`, {
                   params: {
-                      name: userResponse.data.station.name,
+                      name: stationName,
                   }
               });
               setStation(stationResponse.data);
 
               const productsResponse = await apiClient.get(`/product`, {
                   params: {
-                      stationName: userResponse.data.station.name,
+                      stationName: stationName,
                   }
               });
               setProducts(productsResponse.data);
-          }
+
       } catch (error) {
           console.error(error);
       }
@@ -60,15 +58,21 @@ const fetchData = async () => {
       </View>
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
       <TouchableOpacity style={{backgroundColor: "#008157D4", height: 40, alignSelf: 'center', 
-                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white'}}>
+                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Add Product
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
-                        width: '30%', justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white'}}>
+      <TouchableOpacity style={{backgroundColor: "#0090FF", height: 40, alignSelf: 'center', 
+                        width: '25%', justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
           Issue Product
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{backgroundColor: "#F8507E", height: 40, alignSelf: 'center', 
+                        width: '20%', justifyContent:'center', borderRadius: 10}}>
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 13}}>
+          Logout
         </Text>
       </TouchableOpacity>
       </View>

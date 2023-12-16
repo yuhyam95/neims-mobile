@@ -5,11 +5,12 @@ import AppButton from '../components/AppButton'
 import axios from 'axios'
 import JWT from 'expo-jwt'
 import { useNavigation } from '@react-navigation/native'
+import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
   const navigation = useNavigation();  
   const [error, setError] = useState('');
-
+  const {login} = useAuth()
   const handleLogin = async (values) => {
     try {
       const response = await axios.post('https://neims-backend.onrender.com/api/auth/login', {
@@ -20,7 +21,7 @@ const Login = () => {
       const key = 'NEIMS2023userPassword';
       const token = response.data.token;
       const decodedToken = JWT.decode(token, key);
-      console.log(decodedToken)
+      login(decodedToken._id)
       navigation.navigate('Dashboard', { decodedToken });
 
     } catch (error) {

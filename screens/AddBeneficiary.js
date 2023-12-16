@@ -15,11 +15,11 @@ export const Addbeneficiary = ({stationId}) => {
 
 
   const handleSubmit = async (values) => { 
-    const intValue = parseInt(values.quantity, 10);
+    const intValue = parseInt(values.age, 10);
        
     if (!isNaN(intValue)) {
       try {
-        const response = await apiClient.post('/beneficiary', { ...values, quantity: intValue });
+        const response = await apiClient.post('/beneficiary', { ...values, age: intValue });
         console.log('Form submitted successfully:', response.data);
         setShowForm(false)
         setShowDone(true)
@@ -30,7 +30,7 @@ export const Addbeneficiary = ({stationId}) => {
         setShowError(true)
       }
     } else {
-      console.error('Invalid quantity value:', values.quantity);
+      console.error('Invalid quantity value:', values.age);
     }
     
   };

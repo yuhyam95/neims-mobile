@@ -97,7 +97,7 @@ const fetchData = async () => {
                 onPress={() => {setModalVisible(!modalVisible); fetchData()}}>
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
-              <Addbeneficiary />
+              <Addbeneficiary/>
             </View>
           </View>
         </Modal>

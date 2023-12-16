@@ -158,7 +158,7 @@ export const AssessmentForm = () => {
     initialValues={{ state: '', lga: '', community: '', natureofdisaster: '', dateofoccurence: '', datereported: '',
         numberofaffectedpersons: 0, numberofhouseholdaffected: 0, numberofmen: 0, numberofwomen: 0, numberofchildren: 0, numberofhousescompletelydamaged: 0,
         numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: [], longitude: '', latitude: '',
-        station: stationId}}
+        station: stationId, natureofdamage: ''}}
         onSubmit={handleSubmit}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -352,8 +352,22 @@ export const AssessmentForm = () => {
           placeholder='Houses Damaged'
         />
         </View>
-        
         </View>
+        <View style={{flexDirection: 'row', alignItems:'flex-start', justifyContent: 'flex-start', marginBottom: 15}}>
+        
+        <View style={{flexDirection: 'column'}}>
+        <Text style={styles.text}>Nature of Damage</Text>  
+        <TextInput
+          style={styles.input}
+          inputMode='numeric'
+          onChangeText={handleChange('natureofdamage')}
+          onBlur={handleBlur('natureofdamage')}
+          value={values.natureofdamage}
+          placeholder='Nature of Damage'
+        />
+        </View>
+        </View>
+
         <View style={{alignItems: 'center', justifyContent: 'center',}}>
         <View style={{marginTop: 18}}>
             {!location &&

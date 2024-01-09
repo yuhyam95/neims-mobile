@@ -48,6 +48,7 @@ const fetchData = async () => {
         logout();
         navigation.navigate('Login');
     }
+    const totalBeneficiaries = beneficiaries?.men + beneficiaries?.women + beneficiaries?.children;
 
   return (
     <SafeAreaView>
@@ -87,7 +88,7 @@ const fetchData = async () => {
       </View>
       <View flexDirection='row' alignItems='center' justifyContent='center'>
         <BeneficiaryCard name="Children" total={beneficiaries?.children} color="#A8CF45"/>
-        <BeneficiaryCard name="Total Beneficiaries" total={beneficiaries?.households} color="#9F48A6"/>
+        <BeneficiaryCard name="Total Beneficiaries" total={totalBeneficiaries} color="#9F48A6"/>
         </View>
         <ReportsTable reports={reports}/>
           <Modal

@@ -144,7 +144,7 @@ export const IssueProduct = ({ products, userId, refreshParent}) => {
         </View> 
         </View>
         
-        <AppButton label="Issue Product" onPress={handleSubmit} color="white" backgroundColor="#F8507E" />
+        <AppButton label="Issue Product" onPress={handleSubmit} color="white" backgroundColor="#F8507E" width={100}/>
       </View>
     
     )}

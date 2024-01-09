@@ -162,7 +162,7 @@ const fetchProducts = async () => {
           
           </View>
           </View>
-        <AppButton label="Add Product" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" />
+        <AppButton label="Add Product" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" width={95}/>
       </View>
     
     )}

@@ -48,6 +48,7 @@ const fetchData = async () => {
           console.error(error);
       }
     };
+    
     const handleLogout = () => {
       logout();
       navigation.navigate('Login');

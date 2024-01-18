@@ -359,7 +359,6 @@ export const AssessmentForm = () => {
         <Text style={styles.text}>Nature of Damage</Text>  
         <TextInput
           style={styles.input}
-          inputMode='numeric'
           onChangeText={handleChange('natureofdamage')}
           onBlur={handleBlur('natureofdamage')}
           value={values.natureofdamage}

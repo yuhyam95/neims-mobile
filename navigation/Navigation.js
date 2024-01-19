@@ -12,12 +12,10 @@ function AppNavigator() {
   const userRole = user?.role.name;
 
   return (
-    <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
         <Stack.Screen name="Dashboard" component={userRole == "Store-officer" ? Dashboard : AssessmentDashboard} options={{headerShown: false}}/>
       </Stack.Navigator>
-    </NavigationContainer>
   );
 }
 

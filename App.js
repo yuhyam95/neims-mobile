@@ -1,14 +1,14 @@
 import { AuthProvider } from './context/AuthContext';
 import AppNavigator from './navigation/Navigation';
-import AddProduct from './screens/AddProduct';
-import { AssessmentForm } from './screens/AssesmentForm';
-import Login from './screens/Login';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
+    <NavigationContainer>
     <AuthProvider>
     <AppNavigator />
     </AuthProvider>
+    </NavigationContainer>
   );
 }
 

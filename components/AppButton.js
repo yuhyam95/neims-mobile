@@ -30,4 +30,4 @@ const AppButton = ({ label, onPress, backgroundColor, color, width }) => {
     )
 }
 
-export default AppButton;
+export default AppButton; 

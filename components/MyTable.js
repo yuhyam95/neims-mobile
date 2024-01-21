@@ -7,7 +7,7 @@ import TableRows from './TableRows'; // Assuming you have the TableRows componen
 function MyTable({ products } ) {
 
   return (
-    <ScrollView>
+    <>
       <View>
         <Text style={{fontSize: 20, marginLeft: 15}}>
           Product List
@@ -35,7 +35,7 @@ function MyTable({ products } ) {
           ))}
         </View>
       </View>
-    </ScrollView>
+      </>
   );
 }
 

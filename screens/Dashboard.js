@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, Alert, Pressable, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, Alert, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CategoryGrid from '../components/CategoryGrid';
@@ -17,12 +17,10 @@ const Dashboard = () => {
   const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
-  
   const {user, logout} = useAuth()
   const stationName = user?.station.name;
   const userId = user?._id
   
-
   useEffect(() => {
     fetchData();
 }, [user]); 
@@ -56,6 +54,7 @@ const fetchData = async () => {
 
   return (
     <SafeAreaView>
+     <ScrollView> 
     <View style={{marginTop: 20, backgroundColor:'#FBFAFA'}}>
       <View style={{marginLeft: 20, marginTop: 20, marginBottom: 10, 
                     flexDirection:'row', borderBottomWidth: 1, bordeColor: 'gray',   }}>
@@ -127,6 +126,7 @@ const fetchData = async () => {
           </View>
         </Modal>     
     </View>
+    </ScrollView>
     </SafeAreaView>
   );
 };  

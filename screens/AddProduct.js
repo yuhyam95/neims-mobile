@@ -21,8 +21,7 @@ export const AddProduct = ({stationId, categories, userId}) => {
 
 const fetchProducts = async () => {
       try {
-          const res = await apiClient.get(`/singleProduct`);
-          console.log(res.data)  
+          const res = await apiClient.get(`/singleProduct`);  
           setProducts(res.data);
           }
        catch (error) {

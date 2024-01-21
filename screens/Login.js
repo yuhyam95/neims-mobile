@@ -36,7 +36,8 @@ const Login = () => {
     <SafeAreaView>   
     <View style={{alignItems:'center', justifyContent: 'center', marginTop: 200}}>
     <View style={{marginBottom: 10}}>
-     <Image source={require('../assets/nema-logo.png')}/>
+     <Image source={require('../assets/nema-logo.png')}
+     />
      </View>
       <Text style={{fontSize: 30}}>
         Welcome Back, Login

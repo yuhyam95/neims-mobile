@@ -1,5 +1,3 @@
-
-// Formik x React Native example
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, TextInput, View, StyleSheet, Text, Platform, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';

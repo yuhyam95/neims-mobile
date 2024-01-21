@@ -4,10 +4,10 @@
     "slug": "neims-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/nema-logo1.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/nema-logo.png",
+      "image": "./assets/nema-logo1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/nema-logo.png",
+        "foregroundImage": "./assets/nema-logo1.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -29,7 +29,7 @@
       "package": "com.sparks95.neimsmobile"
     },
     "web": {
-      "favicon": "./assets/nema-logo.png"
+      "favicon": "./assets/nema-logo1.png"
     },
     "extra": {
       "eas": {

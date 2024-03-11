@@ -176,7 +176,7 @@ const fetchProducts = async () => {
         <Text style={{marginLeft: 10}}>Expiry Date</Text>
         <TextInput
           style={styles.input}
-          placeholder="MM/DD/YYYY"
+          placeholder="DD/MM/YYYY"
           value={expiryDate}
           onChangeText={handleExpiryDateChange}
           keyboardType="numeric"

@@ -53,6 +53,7 @@ export const AssessmentForm = () => {
      const death = convertToInt(values.numberofdeath);
      const completelydamaged = convertToInt(values.numberofhousescompletelydamaged);
      const partiallydamaged = convertToInt(values.numberofhousespartiallydamaged);
+     const idps = convertToInt(values.numberofidps);
        
     if (!isNaN(affectedpersons)) {
       try {
@@ -69,6 +70,7 @@ export const AssessmentForm = () => {
             numberofhousespartiallydamaged: partiallydamaged,
             dateofoccurence: dateofoccurence,
             datereported: datereported,
+            numberofidps: idps,
             longitude: location?.longitude,
             latitude: location?.latitude
 
@@ -158,7 +160,7 @@ export const AssessmentForm = () => {
     initialValues={{ state: '', lga: '', community: '', natureofdisaster: '', dateofoccurence: '', datereported: '',
         numberofaffectedpersons: 0, numberofhouseholdaffected: 0, numberofmen: 0, numberofwomen: 0, numberofchildren: 0, numberofhousescompletelydamaged: 0,
         numberofhousespartiallydamaged: 0, numberofinjured: 0, numberofdeath: 0, images: [], approved: false, assessmentteam: [], longitude: '', latitude: '',
-        station: stationId, natureofdamage: ''}}
+        station: stationId, natureofdamage: '', numberofidps: 0}}
         onSubmit={handleSubmit}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -365,6 +367,19 @@ export const AssessmentForm = () => {
           placeholder='Nature of Damage'
         />
         </View>
+
+        <View style={{flexDirection: 'column'}}>
+        <Text style={styles.text}>No. of IDPs </Text>  
+        <TextInput
+          style={styles.input}
+          inputMode='numeric'
+          onChangeText={handleChange('numberofidps')}
+          onBlur={handleBlur('numberofidps')}
+          value={values.numberofidps}
+          placeholder='No. of IDPS'
+        />
+        </View>
+
         </View>
 
         <View style={{alignItems: 'center', justifyContent: 'center',}}>

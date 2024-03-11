@@ -12,11 +12,22 @@ export const AddProduct = ({stationId, categories, userId}) => {
   const [showError, setShowError] = useState(false)
   const [showForm, setShowForm] = useState(true)
   const [products, setProducts] = useState(null)
+  const [expiryDate, setExpiryDate] = useState('')
   
   useEffect(() => {
     fetchProducts();
 }, [userId]); 
 
+const handleExpiryDateChange = (text) => {
+  if ((text.length === 2 && expiryDate.length < 2) || (text.length === 5 && expiryDate.length < 5)) {
+    text += '/';
+  } else if (text.length < expiryDate.length && (text.length === 2 || text.length === 5)) {
+    
+    text = text.slice(0, -1);
+  }
+  setExpiryDate(text);
+};
+ console.log(expiryDate)
 const fetchProducts = async () => {
       try {
           const res = await apiClient.get(`/singleProduct`);  
@@ -32,7 +43,7 @@ const fetchProducts = async () => {
        
     if (!isNaN(intValue)) {
       try {
-        const response = await apiClient.post('/product', { ...values, quantity: intValue });
+        const response = await apiClient.post('/product', { ...values, quantity: intValue, expiryDate: expiryDate });
         console.log('Form submitted successfully:', response.data);
         setShowForm(false)
         setShowDone(true)
@@ -98,7 +109,7 @@ const fetchProducts = async () => {
     </View>
   <Formik
     initialValues={{ srvnumber: '', name: '', category: null, quantity: 0, signature: '', 
-                      station: stationId, storeofficer: userId, tag: 'restock', verificationofficer: userId }}
+                      station: stationId, storeofficer: userId, tag: 'restock', verificationofficer: userId, expiryDate: expiryDate }}
     onSubmit={handleSubmit}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -106,7 +117,7 @@ const fetchProducts = async () => {
   
       <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
       <View style={{flexDirection: 'column'}}>
-      <Text> SRV Number </Text>
+      <Text style={{marginLeft: 10}}> SRV Number </Text>
         <TextInput
           style={styles.input}
           onChangeText={handleChange('srvnumber')}
@@ -130,8 +141,8 @@ const fetchProducts = async () => {
           </Picker>
           
           </View>
-        
           </View>
+
         <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'center'}}>
         <View style={{flexDirection: 'column'}}>
         <Text style={{marginLeft: 10}}> Quantity </Text>  
@@ -156,9 +167,24 @@ const fetchProducts = async () => {
             <Picker.Item key={category._id} label={category.name} value={category._id} />
           ))}
           </Picker>
-          
           </View>
           </View>
+      
+      <View style={{flexDirection: 'row', alignItems:'flex-start', justifyContent: 'flex-start'}}>
+      
+      <View style={{flexDirection: 'column'}}>
+        <Text style={{marginLeft: 10}}>Expiry Date</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="MM/DD/YYYY"
+          value={expiryDate}
+          onChangeText={handleExpiryDateChange}
+          keyboardType="numeric"
+          maxLength={10}
+            />
+        </View>
+
+        </View>
         <AppButton label="Add Product" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" width={95}/>
       </View>
     

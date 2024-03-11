@@ -19,7 +19,7 @@ function MyTable({ products } ) {
           <Text style={styles.columnHeader}>Quantity</Text>
           <Text style={styles.columnHeader}>Reason</Text>
           <Text style={styles.columnHeader}>Category</Text>
-          <Text style={styles.columnHeader}>Date</Text>
+          <Text style={styles.columnHeader}>Expiry Date</Text>
         </View>
         <View>
           {products?.map((product, index) => (
@@ -30,7 +30,7 @@ function MyTable({ products } ) {
               category={product?.category.name}
               reason={product.tag}
               quantity={product.quantity}
-              date={moment(product.createdAt).format("MMMM Do YYYY")}
+              date={product.expiryDate}
             />
           ))}
         </View>

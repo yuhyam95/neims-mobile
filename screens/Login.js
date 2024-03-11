@@ -21,7 +21,7 @@ const Login = () => {
 
       const key = 'NEIMS2023userPassword';
       const token = response.data.token;
-      const decodedToken = JWT.decode(token, key);
+      const decodedToken = JWT.decode(token, key, { timeSkew: 30 });
       login(decodedToken._id)
       navigation.navigate('Dashboard');
 

@@ -84,7 +84,7 @@ const fetchData = async () => {
       </View>
       </View>
       
-        <CategoryGrid data={station[0]?.category}/>
+        {/* <CategoryGrid data={station[0]?.category}/> */}
         <MyTable products={products}/>
           <Modal
           animationType="slide"

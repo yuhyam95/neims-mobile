@@ -84,7 +84,7 @@ const Login = () => {
                National Emergency Management Agency Inventory Management System  
             </Text>
             <Text style={{textAlign: 'center'}}>
-               Copyright © 2023  
+               Copyright © 2024  
             </Text>
         </View>
   </SafeAreaView>

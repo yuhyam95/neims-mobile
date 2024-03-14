@@ -9,6 +9,8 @@ import MyTable from '../components/MyTable';
 import IssueProduct from './IssueProduct';
 import apiClient from '../service/apiClient';
 import { useAuth } from '../context/AuthContext';
+import MenuGrid from '../components/MenuGrid';
+import AssessmentForm from './AssesmentForm';
 
 const Dashboard = () => {
 
@@ -17,10 +19,36 @@ const Dashboard = () => {
   const [products, setProducts] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
   const {user, logout} = useAuth()
   const stationName = user?.station.name;
   const userId = user?._id
   
+
+  const handleAddProduct = () => {
+    setModalVisible(true)
+  }
+  const handleAddReport = () => {
+    setReportModalVisible(true)
+  }
+
+  const menuData = [{
+    id: 1,
+    name: "Add Product",
+    color: "#008157D4",
+    onPress: handleAddProduct
+    },
+
+    {
+        id: 2,
+        name: "Take Assessment",
+        color: "#0090FF",
+        onPress: handleAddReport
+    },
+
+      ]
+
+
   useEffect(() => {
     fetchData();
 }, [user]); 
@@ -63,12 +91,12 @@ const fetchData = async () => {
       <Text style={{fontSize: 15, marginBottom: 5}}> Station: {user?.station.name}</Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
-      <TouchableOpacity style={{backgroundColor: "#008157D4", height: 35, alignSelf: 'center', marginRight: 10,
+      {/* <TouchableOpacity style={{backgroundColor: "#008157D4", height: 35, alignSelf: 'center', marginRight: 10,
                         width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
           Add Product
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={{backgroundColor: "#0090FF", height: 35, alignSelf: 'center', marginRight: 100,
                         width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
@@ -84,7 +112,7 @@ const fetchData = async () => {
       </View>
       </View>
       
-        {/* <CategoryGrid data={station[0]?.category}/> */}
+        <MenuGrid data={menuData}/>
         <MyTable products={products}/>
           <Modal
           animationType="slide"
@@ -124,7 +152,28 @@ const fetchData = async () => {
               <IssueProduct userId={userId} products={products} />
             </View>
           </View>
-        </Modal>     
+        </Modal> 
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={reportModalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setReportModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {setReportModalVisible(!reportModalVisible); fetchData()}}>
+                <Text style={styles.textStyle}>X</Text>
+              </Pressable>
+              <AssessmentForm />
+            </View>
+          </View>
+        </Modal>
+
     </View>
     </ScrollView>
     </SafeAreaView>

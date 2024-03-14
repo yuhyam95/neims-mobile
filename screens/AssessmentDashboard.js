@@ -129,7 +129,8 @@ const fetchData = async () => {
               <AssessmentForm />
             </View>
           </View>
-        </Modal>     
+        </Modal>
+             
     </View>
     </SafeAreaView>
   );

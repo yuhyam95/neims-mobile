@@ -17,8 +17,8 @@ function MyTable({ products } ) {
         <View style={styles.tableHeader}>
           <Text style={styles.columnHeader}>Item</Text>
           <Text style={styles.columnHeader}>Quantity</Text>
-          <Text style={styles.columnHeader}>Reason</Text>
           <Text style={styles.columnHeader}>Category</Text>
+          <Text style={styles.columnHeader}>Date Added</Text>
           <Text style={styles.columnHeader}>Expiry Date</Text>
         </View>
         <View>
@@ -30,7 +30,8 @@ function MyTable({ products } ) {
               category={product?.category.name}
               reason={product.tag}
               quantity={product.quantity}
-              date={product.expiryDate}
+              date={moment(product.createdAt).format("MMMM Do YYYY")}
+              expiryDate={product.expiryDate}
             />
           ))}
         </View>

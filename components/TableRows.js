@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-function TableRows({ name, quantity, reason, date, category }) {
+function TableRows({ name, quantity, reason, date, category, expiryDate }) {
   
 
   return (
@@ -17,15 +17,16 @@ function TableRows({ name, quantity, reason, date, category }) {
           <Text style={styles.text}>{quantity}</Text>
         </View>
       </View>
-      <View style={styles.cell}>
+      {/* <View style={styles.cell}>
         <View style={[styles.reasonBox, { backgroundColor: reason === 'restock' ? '#BAF2E0' : '#FBD8D8' }]}>
           <Text style={{ color: reason === 'restock' ? '#2FD197' : '#EB4547', fontSize: 13 }}>
             {reason === 'restock' ? 'RESTOCK' : 'DISTRIBUTION'}
           </Text>
         </View>
-      </View>
+      </View> */}
       <View style={styles.cell}><Text style={styles.text}>{category}</Text></View>
       <View style={styles.cell}><Text style={styles.text}>{date}</Text></View>
+      <View style={styles.cell}><Text style={styles.text}>{expiryDate}</Text></View>
     </View>
   );
 }

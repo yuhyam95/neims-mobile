@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import moment from 'moment'; // Make sure to install the moment library
 
-function BinCard({ product } ) {
+function BinCard({ bincard } ) {
 
   return (
     <>
@@ -23,7 +23,7 @@ function BinCard({ product } ) {
         </View>
 
         <View>
-          {product?.map((product, index) => (
+          {bincard?.map((product, index) => (
             <BinCardRows
                 key={index}
                 date={moment(product?.createdAt).format("MMMM Do YYYY")}
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyTable;
+export default BinCard;

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-function BinCardRows({ name, quantity, reason, date, category, expiryDate }) {
+function BinCardRows({ balance, quantity, reason, date, signature}) {
   
 
   return (

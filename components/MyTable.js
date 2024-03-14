@@ -32,6 +32,7 @@ function MyTable({ products } ) {
               quantity={product.quantity}
               date={moment(product.createdAt).format("MMMM Do YYYY")}
               expiryDate={product.expiryDate}
+              bincard={product.bincard}
             />
           ))}
         </View>

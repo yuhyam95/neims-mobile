@@ -7,7 +7,7 @@ const MenuCard = ({ name, color, onPress }) => {
     <TouchableOpacity style={[styles.card, { backgroundColor: color }]} onPress={onPress}>
       <View>
         <View>
-          <Text style={[styles.statNumber, { color: 'white', fontSize: 25}]}>{name}</Text>
+          <Text style={[styles.statNumber, { color: 'white', fontSize: 20}]}>{name}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -16,11 +16,11 @@ const MenuCard = ({ name, color, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 15,
-    width: 250,
+    margin: 10,
+    width: 170,
     borderRadius: 10,
     elevation: 10,
-    height: 80,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center'
   },

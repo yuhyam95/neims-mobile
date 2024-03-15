@@ -75,6 +75,11 @@ const Login = () => {
           </View>
           </View>
         <AppButton label="Login" onPress={handleSubmit} color="white" backgroundColor="#00BA9D" width={120}/>
+        {error &&
+              <Text style={{textAlign: 'center'}}>
+             {error.response}  
+            </Text>
+        }
       </View>
     
     )}

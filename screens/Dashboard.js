@@ -11,6 +11,7 @@ import apiClient from '../service/apiClient';
 import { useAuth } from '../context/AuthContext';
 import MenuGrid from '../components/MenuGrid';
 import AssessmentForm from './AssesmentForm';
+import ReportsTable from '../components/ReportsTable';
 
 const Dashboard = () => {
 
@@ -20,6 +21,8 @@ const Dashboard = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [issueModalVisible, setIssueModalVisible] = useState(false);
   const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [toggleProducts, setToggleProducts] = useState(true)
+  const [reports, setReports] = useState([]);
   const {user, logout} = useAuth()
   const stationName = user?.station.name;
   const userId = user?._id
@@ -31,7 +34,9 @@ const Dashboard = () => {
   const handleAddReport = () => {
     setReportModalVisible(true)
   }
-
+  const handleToggle = () => {
+    setToggleProducts(!toggleProducts)
+  }
   const menuData = [{
     id: 1,
     name: "Add Product",
@@ -41,9 +46,16 @@ const Dashboard = () => {
 
     {
         id: 2,
-        name: "Take Assessment",
+        name: "Add Report",
         color: "#0090FF",
         onPress: handleAddReport
+    },
+
+    {
+      id: 3,
+      name: toggleProducts ? "View Reports" : "View Products",
+      color: "#FF6347",
+      onPress: handleToggle
     },
 
       ]
@@ -70,6 +82,12 @@ const fetchData = async () => {
               });
               setProducts(productsResponse.data);
 
+              const reportsResponse = await apiClient.get(`/report`, {
+                params: {
+                    stationName: station,
+                }
+            });
+            setReports(reportsResponse.data);
       } catch (error) {
           console.error(error);
       }
@@ -91,12 +109,7 @@ const fetchData = async () => {
       <Text style={{fontSize: 15, marginBottom: 5}}> Station: {user?.station.name}</Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
-      {/* <TouchableOpacity style={{backgroundColor: "#008157D4", height: 35, alignSelf: 'center', marginRight: 10,
-                        width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setModalVisible(true)}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
-          Add Product
-        </Text>
-      </TouchableOpacity> */}
+      
       <TouchableOpacity style={{backgroundColor: "#0090FF", height: 35, alignSelf: 'center', marginRight: 100,
                         width: 85, justifyContent:'center', borderRadius: 10}} onPress={() => setIssueModalVisible(true)}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 10}}>
@@ -113,8 +126,12 @@ const fetchData = async () => {
       </View>
       
         <MenuGrid data={menuData}/>
-        <MyTable products={products}/>
-          <Modal
+    {toggleProducts &&
+      <MyTable products={products}/>}
+    {!toggleProducts &&
+      <ReportsTable reports={reports}/>
+                      }  
+        <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}

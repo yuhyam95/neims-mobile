@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import moment from 'moment'; // Make sure to install the moment library
-
+import BinCardRows from './BinCardRows';
 function BinCard({ bincard } ) {
 
   return (
     <>
-      <View>
+    <View>
+      
         <Text style={{fontSize: 20, marginLeft: 15}}>
          BinCard
         </Text>
-      </View>
-      
+            
       <View style={styles.container}>
         <View style={styles.tableHeader}>
           <Text style={styles.columnHeader}>Date</Text>
@@ -22,7 +22,7 @@ function BinCard({ bincard } ) {
           <Text style={styles.columnHeader}>Signature</Text>
         </View>
 
-        <View>
+        {/* <View>
           {bincard?.map((product, index) => (
             <BinCardRows
                 key={index}
@@ -34,7 +34,9 @@ function BinCard({ bincard } ) {
                 signature={product?.signature}
           />
           ))}
-        </View>
+        </View> */}
+
+      </View>
       </View>
       </>
   );
@@ -45,7 +47,8 @@ const styles = StyleSheet.create({
     margin: 10,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#ddd'
+    borderColor: '#ddd',
+    
   },
   tableHeader: {
     flexDirection: 'row',

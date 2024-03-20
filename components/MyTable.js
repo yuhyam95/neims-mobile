@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import moment from 'moment'; // Make sure to install the moment library
-import TableRows from './TableRows'; // Assuming you have the TableRows component
+import { View, Text, StyleSheet } from 'react-native';
+import moment from 'moment'; 
+import TableRows from './TableRows';
 
 
 function MyTable({ products } ) {

@@ -7,8 +7,8 @@ export default function App() {
   return (
     <NavigationContainer>
     <AuthProvider>
-    {/* <AppNavigator /> */}
-    <Dashboard />
+    <AppNavigator />
+    {/* <Dashboard /> */}
     </AuthProvider>
     </NavigationContainer>
   );

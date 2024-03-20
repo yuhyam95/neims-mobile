@@ -14,7 +14,7 @@ function BinCardRows({ balance, quantity, reason, date, signature}) {
       </View>
      
       <View style={styles.cell}>
-        <Text style={styles.text}>{number}</Text>
+        <Text style={styles.text}>{quantity}</Text>
       </View>
       
       <View style={styles.cell}>
